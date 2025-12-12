@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Flight - Tripma</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="company-home.html" class="logo">Tripma</a>
+            <ul class="nav-links">
+                <li><a href="company-home.html">Home</a></li>
+                <li><a href="add-flight.html">Add Flight</a></li>
+                <li><a href="company-profile.html">Profile</a></li>
+                <li><a href="messages.html">Messages</a></li>
+                <li><a href="login.html">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Add Flight Form -->
+    <div class="container">
+        <div class="form-container">
+            <h1 style="text-align: center; color: var(--primary-purple); margin-bottom: 2rem;">Add New Flight</h1>
+            <form id="addFlightForm" onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label for="name">Flight Name</label>
+                    <input type="text" id="name" name="name" required placeholder="e.g., FIG4312 - San Francisco to Tokyo">
+                </div>
+                <div class="form-group">
+                    <label for="id">Flight ID</label>
+                    <input type="text" id="id" name="id" required placeholder="e.g., FL-001">
+                </div>
+                <div class="form-group">
+                    <label for="itinerary">Itinerary</label>
+                    <textarea id="itinerary" name="itinerary" required placeholder="Enter flight itinerary details (departure, stops, arrival, etc.)"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="fees">Fees ($)</label>
+                    <input type="number" id="fees" name="fees" required min="0" step="0.01" placeholder="Enter flight fees">
+                </div>
+                <div class="form-group">
+                    <label for="passengers">Number of Passengers</label>
+                    <input type="number" id="passengers" name="passengers" required min="1" placeholder="Maximum number of passengers">
+                </div>
+                <div class="form-group">
+                    <label for="departureDate">Departure Date & Time</label>
+                    <input type="datetime-local" id="departureDate" name="departureDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="arrivalDate">Arrival Date & Time</label>
+                    <input type="datetime-local" id="arrivalDate" name="arrivalDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="from">From (Airport Code)</label>
+                    <input type="text" id="from" name="from" required placeholder="e.g., SFO" maxlength="3">
+                </div>
+                <div class="form-group">
+                    <label for="to">To (Airport Code)</label>
+                    <input type="text" id="to" name="to" required placeholder="e.g., NRT" maxlength="3">
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <button type="submit" class="btn btn-primary" style="flex: 1;">Add Flight</button>
+                    <a href="company-home.html" class="btn btn-secondary" style="flex: 1; text-align: center;">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function handleSubmit(e) {
+            e.preventDefault();
+            const flightData = {
+                name: document.getElementById('name').value,
+                id: document.getElementById('id').value,
+                itinerary: document.getElementById('itinerary').value,
+                fees: document.getElementById('fees').value,
+                passengers: document.getElementById('passengers').value,
+                departureDate: document.getElementById('departureDate').value,
+                arrivalDate: document.getElementById('arrivalDate').value,
+                from: document.getElementById('from').value,
+                to: document.getElementById('to').value
+            };
+            
+            alert('Flight added successfully!');
+            window.location.href = 'company-home.html';
+        }
+    </script>
+</body>
+</html>
+

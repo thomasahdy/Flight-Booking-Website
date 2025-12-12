@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages - Tripma</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="index.html" class="logo">Tripma</a>
+            <ul class="nav-links">
+                <li><a href="passenger-home.html" id="homeLink">Home</a></li>
+                <li><a href="messages.html">Messages</a></li>
+                <li><a href="login.html">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Messages Interface -->
+    <div class="container">
+        <h1 style="color: var(--primary-purple); margin-bottom: 2rem;">Messages</h1>
+        
+        <div style="display: grid; grid-template-columns: 300px 1fr; gap: 2rem; height: 600px;">
+            <!-- Conversations List -->
+            <div class="card" style="overflow-y: auto;">
+                <h3 style="color: var(--primary-purple); margin-bottom: 1rem;">Conversations</h3>
+                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    <div onclick="loadConversation('hawaiian')" style="padding: 1rem; border: 2px solid var(--primary-purple); border-radius: 8px; cursor: pointer; background: var(--gray-light);">
+                        <strong>Hawaiian Airlines</strong>
+                        <p style="margin: 0.25rem 0 0 0; color: var(--gray-medium); font-size: 0.875rem;">About flight FIG4312...</p>
+                    </div>
+                    <div onclick="loadConversation('japan')" style="padding: 1rem; border: 2px solid var(--gray-light); border-radius: 8px; cursor: pointer;">
+                        <strong>Japan Airlines</strong>
+                        <p style="margin: 0.25rem 0 0 0; color: var(--gray-medium); font-size: 0.875rem;">Flight inquiry</p>
+                    </div>
+                    <div onclick="loadConversation('delta')" style="padding: 1rem; border: 2px solid var(--gray-light); border-radius: 8px; cursor: pointer;">
+                        <strong>Delta Airlines</strong>
+                        <p style="margin: 0.25rem 0 0 0; color: var(--gray-medium); font-size: 0.875rem;">Booking question</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Window -->
+            <div class="card" style="display: flex; flex-direction: column;">
+                <div id="chatHeader" style="border-bottom: 2px solid var(--gray-light); padding-bottom: 1rem; margin-bottom: 1rem;">
+                    <h2 style="color: var(--primary-purple); margin: 0;">Hawaiian Airlines</h2>
+                    <p style="color: var(--gray-medium); margin: 0.25rem 0 0 0;">Online</p>
+                </div>
+
+                <div id="messagesContainer" style="flex: 1; overflow-y: auto; margin-bottom: 1rem; display: flex; flex-direction: column; gap: 1rem;">
+                    <div style="display: flex; flex-direction: column; align-items: flex-start;">
+                        <div style="background: var(--gray-light); padding: 0.75rem 1rem; border-radius: 12px; max-width: 70%;">
+                            <p style="margin: 0;">Hello! How can I help you with your flight booking?</p>
+                            <p style="margin: 0.25rem 0 0 0; font-size: 0.75rem; color: var(--gray-medium);">10:30 AM</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; flex-direction: column; align-items: flex-end;">
+                        <div style="background: var(--primary-purple); color: white; padding: 0.75rem 1rem; border-radius: 12px; max-width: 70%;">
+                            <p style="margin: 0;">Hi, I have a question about flight FIG4312. What's the baggage allowance?</p>
+                            <p style="margin: 0.25rem 0 0 0; font-size: 0.75rem; opacity: 0.8;">10:32 AM</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; flex-direction: column; align-items: flex-start;">
+                        <div style="background: var(--gray-light); padding: 0.75rem 1rem; border-radius: 12px; max-width: 70%;">
+                            <p style="margin: 0;">Each passenger is allowed one free carry-on bag and one personal item. First checked bag is also free!</p>
+                            <p style="margin: 0.25rem 0 0 0; font-size: 0.75rem; color: var(--gray-medium);">10:33 AM</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 0.5rem;">
+                    <input type="text" id="messageInput" placeholder="Type your message..." style="flex: 1; padding: 0.75rem; border: 2px solid var(--gray-light); border-radius: 8px;" onkeypress="handleKeyPress(event)">
+                    <button onclick="sendMessage()" class="btn btn-primary">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function loadConversation(company) {
+            const companies = {
+                hawaiian: { name: 'Hawaiian Airlines', status: 'Online' },
+                japan: { name: 'Japan Airlines', status: 'Online' },
+                delta: { name: 'Delta Airlines', status: 'Away' }
+            };
+
+            const companyInfo = companies[company];
+            document.getElementById('chatHeader').innerHTML = `
+                <h2 style="color: var(--primary-purple); margin: 0;">${companyInfo.name}</h2>
+                <p style="color: var(--gray-medium); margin: 0.25rem 0 0 0;">${companyInfo.status}</p>
+            `;
+
+            // Clear and reload messages (in real app, this would fetch from API)
+            const container = document.getElementById('messagesContainer');
+            container.innerHTML = `
+                <div style="display: flex; flex-direction: column; align-items: flex-start;">
+                    <div style="background: var(--gray-light); padding: 0.75rem 1rem; border-radius: 12px; max-width: 70%;">
+                        <p style="margin: 0;">Hello! How can I help you today?</p>
+                        <p style="margin: 0.25rem 0 0 0; font-size: 0.75rem; color: var(--gray-medium);">Just now</p>
+                    </div>
+                </div>
+            `;
+
+            // Update active conversation highlight
+            document.querySelectorAll('[onclick^="loadConversation"]').forEach(el => {
+                el.style.border = '2px solid var(--gray-light)';
+                el.style.background = 'white';
+            });
+            event.currentTarget.style.border = '2px solid var(--primary-purple)';
+            event.currentTarget.style.background = 'var(--gray-light)';
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+
+            const container = document.getElementById('messagesContainer');
+            const now = new Date();
+            const time = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+
+            const messageDiv = document.createElement('div');
+            messageDiv.style.display = 'flex';
+            messageDiv.style.flexDirection = 'column';
+            messageDiv.style.alignItems = 'flex-end';
+            messageDiv.innerHTML = `
+                <div style="background: var(--primary-purple); color: white; padding: 0.75rem 1rem; border-radius: 12px; max-width: 70%;">
+                    <p style="margin: 0;">${message}</p>
+                    <p style="margin: 0.25rem 0 0 0; font-size: 0.75rem; opacity: 0.8;">${time}</p>
+                </div>
+            `;
+
+            container.appendChild(messageDiv);
+            container.scrollTop = container.scrollHeight;
+            input.value = '';
+        }
+
+        function handleKeyPress(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        // Set default home link based on user type (simplified - in real app, check auth)
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('company')) {
+            document.getElementById('homeLink').href = 'company-home.html';
+        }
+    </script>
+</body>
+</html>
+
