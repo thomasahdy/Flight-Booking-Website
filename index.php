@@ -1,31 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tripma - Book Your Next Adventure</title>
-    <link rel="stylesheet" href="./css/styles.css">
-</head>
-<body>
-    <!-- Promotional Banner -->
-    <div style="background: var(--purple-dark); color: white; padding: 0.75rem; text-align: center; position: relative;">
-        <p style="margin: 0;">Join Tripma today and save up to 20% on your flight using code TRAVEL at checkout. Promotion valid for new users only.</p>
-        <button onclick="this.parentElement.style.display='none'" style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer;">×</button>
-    </div>
+<?php
+ 
+ require_once('includes/header.php');
+?>
 
-    <!-- Header -->
-    <header class="header">
-        <nav class="navbar">
-            <a href="index.html" class="logo">Tripma</a>
-            <ul class="nav-links">
-                <li><a href="search-flight.html">Flights</a></li>
-                <li><a href="#">Hotels</a></li>
-                <li><a href="#">Packages</a></li>
-                <li><a href="login.html">Sign in</a></li>
-                <li><a href="register.html" class="btn btn-primary">Sign up</a></li>
-            </ul>
-        </nav>
-    </header>
 
     <!-- Hero Section -->
     <section class="hero" style="background-image: url('assets/world-map-background.png'); background-size: cover; background-position: center; background-repeat: no-repeat;">
@@ -177,57 +154,8 @@
             </div>
         </div>
     </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-column">
-                <h3>Tripma</h3>
-            </div>
-            <div class="footer-column">
-                <h3>About</h3>
-                <a href="#">About Tripma</a>
-                <a href="#">How it works</a>
-                <a href="#">Careers</a>
-                <a href="#">Press</a>
-                <a href="#">Blog</a>
-                <a href="#">Forum</a>
-            </div>
-            <div class="footer-column">
-                <h3>Partner with us</h3>
-                <a href="#">Partnership programs</a>
-                <a href="#">Affiliate program</a>
-                <a href="#">Connectivity partners</a>
-                <a href="#">Promotions and events</a>
-                <a href="#">Integrations</a>
-                <a href="#">Community</a>
-                <a href="#">Loyalty program</a>
-            </div>
-            <div class="footer-column">
-                <h3>Support</h3>
-                <a href="#">Help Center</a>
-                <a href="#">Contact us</a>
-                <a href="#">Privacy policy</a>
-                <a href="#">Terms of service</a>
-                <a href="#">Trust and safety</a>
-                <a href="#">Accessibility</a>
-            </div>
-            <div class="footer-column">
-                <h3>Get the app</h3>
-                <a href="#">Tripma for Android</a>
-                <a href="#">Tripma for iOS</a>
-                <a href="#">Mobile site</a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <div class="social-icons">
-                <a href="#">🐦</a>
-                <a href="#">📷</a>
-                <a href="#">📘</a>
-            </div>
-            <p>© 2020 Tripma incorporated.</p>
-        </div>
-    </footer>
-</body>
-</html>
+<?php
+ 
+ require_once('includes/footer.php');
+?>
 
