@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Details - Tripma</title>
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="company-home.html" class="logo">Tripma</a>
+            <ul class="nav-links">
+                <li><a href="company-home.html">Home</a></li>
+                <li><a href="add-flight.html">Add Flight</a></li>
+                <li><a href="company-profile.html">Profile</a></li>
+                <li><a href="messages.html">Messages</a></li>
+                <li><a href="logout.html">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Flight Details -->
+    <div class="container">
+        <div style="margin-bottom: 2rem;">
+            <a href="company-home.html" style="color: var(--primary-purple); text-decoration: none;">← Back to
+                Flights</a>
+        </div>
+
+        <div class="card" style="margin-bottom: 2rem;">
+            <h1 style="color: var(--primary-purple); margin-bottom: 1rem;">FIG4312 - San Francisco to Tokyo</h1>
+            <div
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                <div>
+                    <p style="color: var(--gray-medium); margin-bottom: 0.25rem;">Flight ID</p>
+                    <p style="font-size: 1.25rem; font-weight: 600;">FL-001</p>
+                </div>
+                <div>
+                    <p style="color: var(--gray-medium); margin-bottom: 0.25rem;">Flight Name</p>
+                    <p style="font-size: 1.25rem; font-weight: 600;">FIG4312</p>
+                </div>
+                <div>
+                    <p style="color: var(--gray-medium); margin-bottom: 0.25rem;">Fees</p>
+                    <p style="font-size: 1.25rem; font-weight: 600; color: var(--primary-purple);">$624</p>
+                </div>
+                <div>
+                    <p style="color: var(--gray-medium); margin-bottom: 0.25rem;">Passengers</p>
+                    <p style="font-size: 1.25rem; font-weight: 600;">45/50</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" style="margin-bottom: 2rem;">
+            <h2 style="color: var(--primary-purple); margin-bottom: 1rem;">Itinerary</h2>
+            <p style="line-height: 1.8; color: var(--gray-dark);">
+                <strong>Departure:</strong> San Francisco International Airport (SFO) - Feb 25, 7:00 AM<br>
+                <strong>Layover:</strong> Honolulu International Airport (HNL) - 2h 45m<br>
+                <strong>Arrival:</strong> Narita International Airport (NRT) - Mar 21, 4:15 PM<br>
+                <strong>Duration:</strong> 16h 45m (+1d)<br>
+                <strong>Stops:</strong> 1 stop
+            </p>
+        </div>
+
+        <!-- Pending Passengers -->
+        <div class="card" style="margin-bottom: 2rem;">
+            <div class="section-header">
+                <h2>Pending Passengers</h2>
+                <span class="badge badge-warning">5</span>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>John Doe</td>
+                            <td>john.doe@email.com</td>
+                            <td>+1-555-0123</td>
+                            <td><span class="badge badge-warning">Pending Payment</span></td>
+                            <td>
+                                <button class="btn btn-primary"
+                                    style="padding: 0.5rem 1rem; font-size: 0.875rem;">Approve</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Jane Smith</td>
+                            <td>jane.smith@email.com</td>
+                            <td>+1-555-0124</td>
+                            <td><span class="badge badge-warning">Pending Payment</span></td>
+                            <td>
+                                <button class="btn btn-primary"
+                                    style="padding: 0.5rem 1rem; font-size: 0.875rem;">Approve</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Bob Johnson</td>
+                            <td>bob.johnson@email.com</td>
+                            <td>+1-555-0125</td>
+                            <td><span class="badge badge-info">Awaiting Confirmation</span></td>
+                            <td>
+                                <button class="btn btn-primary"
+                                    style="padding: 0.5rem 1rem; font-size: 0.875rem;">Approve</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Registered Passengers -->
+        <div class="card" style="margin-bottom: 2rem;">
+            <div class="section-header">
+                <h2>Registered Passengers</h2>
+                <span class="badge badge-success">45</span>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Seat</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Sofia Knowles</td>
+                            <td>sofia.knowles@email.com</td>
+                            <td>+1-555-0101</td>
+                            <td>9F</td>
+                            <td><span class="badge badge-success">Confirmed</span></td>
+                        </tr>
+                        <tr>
+                            <td>Michael Chen</td>
+                            <td>michael.chen@email.com</td>
+                            <td>+1-555-0102</td>
+                            <td>12A</td>
+                            <td><span class="badge badge-success">Confirmed</span></td>
+                        </tr>
+                        <tr>
+                            <td>Emily Rodriguez</td>
+                            <td>emily.rodriguez@email.com</td>
+                            <td>+1-555-0103</td>
+                            <td>15B</td>
+                            <td><span class="badge badge-success">Confirmed</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Cancel Flight -->
+        <div class="card" style="border: 2px solid var(--badge-danger);">
+            <h2 style="color: var(--badge-danger); margin-bottom: 1rem;">Danger Zone</h2>
+            <p style="color: var(--gray-medium); margin-bottom: 1rem;">
+                Canceling this flight will automatically refund all registered passengers. This action cannot be undone.
+            </p>
+            <button onclick="cancelFlight()" class="btn" style="background: #DC2626; color: white;">Cancel Flight &
+                Refund Passengers</button>
+        </div>
+    </div>
+
+    <script>
+        function cancelFlight() {
+            if (confirm('Are you sure you want to cancel this flight? All passengers will be refunded automatically.')) {
+                alert('Flight canceled. All passengers have been refunded.');
+                window.location.href = 'company-home.html';
+            }
+        }
+    </script>
+</body>
+
+</html>

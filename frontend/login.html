@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in to Tripma</title>
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="../index.php" class="logo">Tripma</a>
+            <ul class="nav-links">
+                <li><a href="search-flight.html">Flights</a></li>
+                <li><a href="#">Hotels</a></li>
+                <li><a href="#">Packages</a></li>
+                <li><a href="register.html" class="btn btn-primary">Sign up</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Login Form -->
+    <div class="form-container">
+        <h1 style="text-align: center; color: var(--primary-purple); margin-bottom: 2rem;">Sign in to Tripma</h1>
+        <form id="loginForm" onsubmit="handleLogin(event)">
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" id="email" name="email" required placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required placeholder="Enter your password">
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="remember">
+                <label for="remember">Remember me</label>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Sign in</button>
+        </form>
+        <p style="text-align: center; margin-top: 1.5rem; color: var(--gray-medium);">
+            Don't have an account? <a href="register.html" style="color: var(--primary-purple);">Sign up</a>
+        </p>
+    </div>
+
+    <script>
+        async function handleLogin(e) {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value.trim().toLowerCase();
+            const password = document.getElementById('password').value;
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+
+            // Disable button and show loading
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Signing in...';
+
+            try {
+                console.log('Sending login request for:', email);
+                
+                const response = await fetch('../backend/auth/login.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                console.log('Response status:', response.status, response.statusText);
+                
+                // Check if response is OK
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('Response error:', errorText);
+                    try {
+                        const errorData = JSON.parse(errorText);
+                        alert('Login failed: ' + (errorData.message || errorText));
+                    } catch (e) {
+                        alert('Login failed: ' + errorText);
+                    }
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Sign in';
+                    return;
+                }
+
+                const responseText = await response.text();
+                console.log('Response text:', responseText);
+                
+                let data;
+                try {
+                    data = JSON.parse(responseText);
+                } catch (e) {
+                    console.error('Failed to parse JSON:', e);
+                    console.error('Response was:', responseText);
+                    alert('Server returned invalid response. Check console for details.');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Sign in';
+                    return;
+                }
+
+                console.log('Parsed response data:', data);
+
+                if (data.success) {
+                    // Store user data in localStorage for frontend use
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    console.log('Login successful, redirecting...');
+                    // Redirect based on user type
+                    window.location.href = data.redirect;
+                } else {
+                    // Show detailed error message
+                    let errorMsg = data.message || 'Login failed. Please try again.';
+                    if (data.error) {
+                        console.error('Server error:', data.error);
+                        errorMsg += '\n\nError details: ' + data.error;
+                    }
+                    alert(errorMsg);
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Sign in';
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                console.error('Error stack:', error.stack);
+                alert('Network error occurred. Please check:\n1. XAMPP MySQL is running\n2. Apache is running\n3. Check browser console for details');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Sign in';
+            }
+        }
+    </script>
+</body>
+
+</html>

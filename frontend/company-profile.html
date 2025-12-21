@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Profile - Tripma</title>
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="company-home.html" class="logo">Tripma</a>
+            <ul class="nav-links">
+                <li><a href="company-home.html">Home</a></li>
+                <li><a href="add-flight.html">Add Flight</a></li>
+                <li><a href="company-profile.html">Profile</a></li>
+                <li><a href="messages.html">Messages</a></li>
+                <li><a href="logout.html">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Company Profile -->
+    <div class="container">
+        <div class="profile-header">
+            <img src="https://via.placeholder.com/120" alt="Company Logo" class="profile-image" id="logoPreview">
+            <div class="profile-info" style="flex: 1;">
+                <h2 id="companyNameDisplay">Hawaiian Airlines</h2>
+                <p id="bioDisplay" style="color: var(--gray-medium); margin-top: 0.5rem;">Premium airline service
+                    connecting the Pacific</p>
+                <p style="color: var(--gray-medium); margin-top: 0.5rem;"><strong>Address:</strong> <span
+                        id="addressDisplay">1234 Airport Blvd, Honolulu, HI 96819</span></p>
+            </div>
+            <div>
+                <button onclick="toggleEdit()" class="btn btn-primary">Edit</button>
+            </div>
+        </div>
+
+        <!-- Edit Form (Hidden by default) -->
+        <div id="editForm" style="display: none;" class="form-container">
+            <h2 style="color: var(--primary-purple); margin-bottom: 1.5rem;">Edit Company Profile</h2>
+            <form onsubmit="handleSave(event)">
+                <div class="form-group">
+                    <label for="logo">Company Logo URL</label>
+                    <input type="url" id="logo" name="logo" placeholder="Enter logo URL"
+                        onchange="updateLogoPreview(this.value)">
+                </div>
+                <div class="form-group">
+                    <label for="name">Company Name</label>
+                    <input type="text" id="name" name="name" required value="Hawaiian Airlines">
+                </div>
+                <div class="form-group">
+                    <label for="bio">Bio</label>
+                    <textarea id="bio" name="bio"
+                        placeholder="Tell us about your company">Premium airline service connecting the Pacific</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <input type="text" id="address" name="address" required
+                        value="1234 Airport Blvd, Honolulu, HI 96819">
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <button type="button" onclick="toggleEdit()" class="btn btn-secondary">Cancel</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Flights List -->
+        <section class="section">
+            <div class="section-header">
+                <h2>Company Flights</h2>
+            </div>
+            <div class="flight-list">
+                <div class="flight-item" onclick="window.location.href='flight-details.html?id=1'">
+                    <div class="flight-info">
+                        <h3>FIG4312 - San Francisco to Tokyo</h3>
+                        <p><strong>ID:</strong> FL-001 | <strong>Status:</strong> Active</p>
+                    </div>
+                </div>
+                <div class="flight-item" onclick="window.location.href='flight-details.html?id=2'">
+                    <div class="flight-info">
+                        <h3>FIG4313 - Los Angeles to Sydney</h3>
+                        <p><strong>ID:</strong> FL-002 | <strong>Status:</strong> Active</p>
+                    </div>
+                </div>
+                <div class="flight-item" onclick="window.location.href='flight-details.html?id=3'">
+                    <div class="flight-info">
+                        <h3>FIG4314 - New York to London</h3>
+                        <p><strong>ID:</strong> FL-003 | <strong>Status:</strong> Full</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function toggleEdit() {
+            const form = document.getElementById('editForm');
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function updateLogoPreview(url) {
+            if (url) {
+                document.getElementById('logoPreview').src = url;
+            }
+        }
+
+        function handleSave(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const bio = document.getElementById('bio').value;
+            const address = document.getElementById('address').value;
+            const logo = document.getElementById('logo').value;
+
+            document.getElementById('companyNameDisplay').textContent = name;
+            document.getElementById('bioDisplay').textContent = bio;
+            document.getElementById('addressDisplay').textContent = address;
+            if (logo) {
+                document.getElementById('logoPreview').src = logo;
+            }
+
+            alert('Profile updated successfully!');
+            toggleEdit();
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,107 @@
+<?php
+/**
+ * Database Configuration
+ * This file contains the database connection settings for XAMPP MySQL
+ */
+
+// Database credentials
+define('DB_HOST', 'localhost');
+define('DB_NAME', 'tripma_db');
+define('DB_USER', 'root');
+define('DB_PASS', '');
+
+
+function getDBConnection()
+{
+    try {
+        $conn = new PDO(
+            "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4",
+            DB_USER,
+            DB_PASS,
+            [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                PDO::ATTR_EMULATE_PREPARES => false
+            ]
+        );
+        return $conn;
+    } catch (PDOException $e) {
+        // If database doesn't exist, try to create it
+        if (strpos($e->getMessage(), "Unknown database") !== false) {
+            return createDatabase();
+        }
+        die("Connection failed: " . $e->getMessage());
+    }
+}
+
+
+function createDatabase()
+{
+    try {
+        $conn = new PDO(
+            "mysql:host=" . DB_HOST,
+            DB_USER,
+            DB_PASS
+        );
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+
+        $conn->exec("CREATE DATABASE IF NOT EXISTS " . DB_NAME . " CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+
+
+        $conn->exec("USE " . DB_NAME);
+
+
+        $conn->exec("
+            CREATE TABLE IF NOT EXISTS users (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                email VARCHAR(255) NOT NULL UNIQUE,
+                password VARCHAR(255) NOT NULL,
+                full_name VARCHAR(255) NOT NULL,
+                phone VARCHAR(50),
+                user_type ENUM('passenger', 'company') NOT NULL DEFAULT 'passenger',
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+            )
+        ");
+
+
+        $conn->exec("
+            CREATE TABLE IF NOT EXISTS passengers (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                user_id INT NOT NULL UNIQUE,
+                profile_image VARCHAR(500),
+                date_of_birth DATE,
+                nationality VARCHAR(100),
+                passport_number VARCHAR(50),
+                emergency_contact_name VARCHAR(255),
+                emergency_contact_phone VARCHAR(50),
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+            )
+        ");
+
+
+        $conn->exec("
+            CREATE TABLE IF NOT EXISTS companies (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                user_id INT NOT NULL UNIQUE,
+                company_name VARCHAR(255) NOT NULL,
+                logo_url VARCHAR(500),
+                bio TEXT,
+                address TEXT,
+                license_number VARCHAR(100),
+                tax_id VARCHAR(100),
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+            )
+        ");
+
+        return getDBConnection();
+    } catch (PDOException $e) {
+        die("Database creation failed: " . $e->getMessage());
+    }
+}
+
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}

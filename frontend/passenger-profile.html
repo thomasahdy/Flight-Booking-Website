@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passenger Profile - Tripma</title>
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="passenger-home.html" class="logo">Tripma</a>
+            <ul class="nav-links">
+                <li><a href="passenger-home.html">Home</a></li>
+                <li><a href="search-flight.html">Search Flights</a></li>
+                <li><a href="passenger-profile.html">Profile</a></li>
+                <li><a href="messages.html">Messages</a></li>
+                <li><a href="logout.html">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Passenger Profile -->
+    <div class="container">
+        <div class="form-container">
+            <h1 style="text-align: center; color: var(--primary-purple); margin-bottom: 2rem;">Edit Your Profile</h1>
+            <form id="profileForm" onsubmit="handleSave(event)">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <img src="https://via.placeholder.com/120" alt="Profile" class="profile-image"
+                        id="profileImagePreview">
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <label for="profileImage">Profile Image URL</label>
+                        <input type="url" id="profileImage" name="profileImage" placeholder="Enter image URL"
+                            onchange="updateImagePreview(this.value)">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required value="Sofia Knowles">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required value="sofia.knowles@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="tel">Phone Number</label>
+                    <input type="tel" id="tel" name="tel" required value="+1-555-0101">
+                </div>
+                <div class="form-group">
+                    <label for="dateOfBirth">Date of Birth</label>
+                    <input type="date" id="dateOfBirth" name="dateOfBirth" value="1990-05-15">
+                </div>
+                <div class="form-group">
+                    <label for="nationality">Nationality</label>
+                    <input type="text" id="nationality" name="nationality" value="American">
+                </div>
+                <div class="form-group">
+                    <label for="passport">Passport Number</label>
+                    <input type="text" id="passport" name="passport" placeholder="Enter passport number">
+                </div>
+                <div class="form-group">
+                    <label for="emergencyContact">Emergency Contact Name</label>
+                    <input type="text" id="emergencyContact" name="emergencyContact" value="John Knowles">
+                </div>
+                <div class="form-group">
+                    <label for="emergencyPhone">Emergency Contact Phone</label>
+                    <input type="tel" id="emergencyPhone" name="emergencyPhone" value="+1-555-0102">
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <button type="submit" class="btn btn-primary" style="flex: 1;">Save Changes</button>
+                    <a href="passenger-home.html" class="btn btn-secondary"
+                        style="flex: 1; text-align: center;">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function updateImagePreview(url) {
+            if (url) {
+                document.getElementById('profileImagePreview').src = url;
+            }
+        }
+
+        function handleSave(e) {
+            e.preventDefault();
+            alert('Profile updated successfully!');
+            window.location.href = 'passenger-home.html';
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logging out... - Tripma</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <div class="form-container" style="text-align: center;">
+        <h1 style="color: var(--primary-purple);">Logging out...</h1>
+        <p style="color: var(--gray-medium);">Please wait while we log you out.</p>
+    </div>
+
+    <script>
+        // Clear localStorage
+        localStorage.removeItem('user');
+
+        // Call backend logout to destroy session
+        fetch('../backend/auth/logout.php')
+            .then(() => {
+                // Redirect to login
+                window.location.href = 'login.html';
+            })
+            .catch(() => {
+                // Still redirect even if backend fails
+                window.location.href = 'login.html';
+            });
+    </script>
+</body>
+
+</html>

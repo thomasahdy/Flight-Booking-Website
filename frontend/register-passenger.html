@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Passenger Registration - Tripma</title>
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="../index.php" class="logo">Tripma</a>
+            <ul class="nav-links">
+                <li><a href="login.html">Sign in</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Passenger Registration Form -->
+    <div class="form-container">
+        <h1 style="text-align: center; color: var(--primary-purple); margin-bottom: 2rem;">Complete Your Passenger
+            Profile</h1>
+        <form id="passengerForm" onsubmit="handleSubmit(event)">
+            <div class="form-group">
+                <label for="profileImage">Profile Image URL</label>
+                <input type="url" id="profileImage" name="profileImage" placeholder="Enter image URL">
+            </div>
+            <div class="form-group">
+                <label for="dateOfBirth">Date of Birth</label>
+                <input type="date" id="dateOfBirth" name="dateOfBirth" required>
+            </div>
+            <div class="form-group">
+                <label for="nationality">Nationality</label>
+                <input type="text" id="nationality" name="nationality" placeholder="Enter nationality">
+            </div>
+            <div class="form-group">
+                <label for="passport">Passport Number</label>
+                <input type="text" id="passport" name="passport" placeholder="Enter passport number">
+            </div>
+            <div class="form-group">
+                <label for="emergencyContact">Emergency Contact Name</label>
+                <input type="text" id="emergencyContact" name="emergencyContact" required
+                    placeholder="Enter emergency contact name">
+            </div>
+            <div class="form-group">
+                <label for="emergencyPhone">Emergency Contact Phone</label>
+                <input type="tel" id="emergencyPhone" name="emergencyPhone" required
+                    placeholder="Enter emergency contact phone">
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Complete
+                Registration</button>
+        </form>
+    </div>
+
+    <script>
+        async function handleSubmit(e) {
+            e.preventDefault();
+
+            // Get user data from localStorage
+            const user = localStorage.getItem('user');
+            if (!user) {
+                alert('You must complete the initial registration first.\n\nPlease go to the registration page and create your account.');
+                window.location.href = 'register.html';
+                return;
+            }
+
+            const userData = JSON.parse(user);
+
+            const formData = {
+                user_id: userData.id, // Include user_id for authentication
+                profileImage: document.getElementById('profileImage').value.trim(),
+                dateOfBirth: document.getElementById('dateOfBirth').value,
+                nationality: document.getElementById('nationality').value.trim(),
+                passport: document.getElementById('passport').value.trim(),
+                emergencyContact: document.getElementById('emergencyContact').value.trim(),
+                emergencyPhone: document.getElementById('emergencyPhone').value.trim()
+            };
+
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Saving...';
+
+            try {
+                console.log('Sending passenger profile update:', formData);
+
+                const response = await fetch('../backend/profile/update-passenger.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                console.log('Response status:', response.status);
+
+                const data = await response.json();
+                console.log('Response data:', data);
+
+                if (data.success) {
+                    alert('Profile completed successfully!');
+                    window.location.href = data.redirect;
+                } else {
+                    alert(data.message || 'Failed to update profile');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Complete Registration';
+                }
+            } catch (error) {
+                console.error('Profile update error:', error);
+                alert('An error occurred. Please try again.');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Complete Registration';
+            }
+        }
+    </script>
+</body>
+
+</html>

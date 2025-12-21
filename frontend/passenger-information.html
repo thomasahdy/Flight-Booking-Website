@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passenger Information - Tripma</title>
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="../index.php" class="logo">Tripma</a>
+            <ul class="nav-links">
+                <li><a href="search-flight.html">Flights</a></li>
+                <li><a href="login.html">Sign in</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container" style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 2rem; margin-top: 2rem;">
+        <!-- Left Column: Forms -->
+        <div>
+            <!-- Passenger Information -->
+            <div class="card" style="margin-bottom: 1.5rem;">
+                <h2 style="color: var(--primary-purple); margin-bottom: 0.5rem;">Passenger information</h2>
+                <p style="color: var(--gray-medium); margin-bottom: 1.5rem; font-size: 0.875rem;">
+                    Enter the required information for each traveler and be sure that it exactly matches the
+                    government-issued ID presented at the airport.
+                </p>
+
+                <div
+                    style="border: 2px solid var(--gray-light); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem;">
+                    <h3 style="color: var(--gray-dark); margin-bottom: 1rem;">Passenger 1 (Adult)</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label for="firstName">First name*</label>
+                            <input type="text" id="firstName" name="firstName" required placeholder="First">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label for="middleName">Middle</label>
+                            <input type="text" id="middleName" name="middleName" placeholder="Middle">
+                        </div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label for="lastName">Last name*</label>
+                            <input type="text" id="lastName" name="lastName" required placeholder="Last">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label for="suffix">Suffix</label>
+                            <input type="text" id="suffix" name="suffix" placeholder="Jr., Sr., etc.">
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <label for="dob">Date of birth*</label>
+                        <input type="date" id="dob" name="dob" required>
+                        <p style="margin: 0.25rem 0 0 0; font-size: 0.875rem; color: var(--gray-medium);">MM/DD/YY</p>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <label for="email">Email address*</label>
+                        <input type="email" id="email" name="email" required placeholder="email@example.com">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <label for="phone">Phone number*</label>
+                        <input type="tel" id="phone" name="phone" required placeholder="+1-555-0101">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <label for="redress">Redress number</label>
+                        <input type="text" id="redress" name="redress" placeholder="Optional">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="knownTraveler">Known traveller number*</label>
+                        <input type="text" id="knownTraveler" name="knownTraveler" required
+                            placeholder="Enter known traveller number">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Emergency Contact -->
+            <div class="card" style="margin-bottom: 1.5rem;">
+                <h2 style="color: var(--primary-purple); margin-bottom: 1rem;">Emergency contact information</h2>
+                <div class="checkbox-group" style="margin-bottom: 1rem;">
+                    <input type="checkbox" id="sameAsPassenger" onchange="toggleEmergencyContact()">
+                    <label for="sameAsPassenger">Same as Passenger 1</label>
+                </div>
+                <div id="emergencyContactFields">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label for="emergencyFirstName">First name*</label>
+                            <input type="text" id="emergencyFirstName" name="emergencyFirstName" required>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label for="emergencyLastName">Last name*</label>
+                            <input type="text" id="emergencyLastName" name="emergencyLastName" required>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <label for="emergencyEmail">Email address*</label>
+                        <input type="email" id="emergencyEmail" name="emergencyEmail" required>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="emergencyPhone">Phone number*</label>
+                        <input type="tel" id="emergencyPhone" name="emergencyPhone" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bag Information -->
+            <div class="card" style="margin-bottom: 1.5rem;">
+                <h2 style="color: var(--primary-purple); margin-bottom: 0.5rem;">Bag information</h2>
+                <p style="color: var(--gray-medium); margin-bottom: 1rem; font-size: 0.875rem; line-height: 1.6;">
+                    Each passenger is allowed one free carry-on bag and one personal item. First checked bag for each
+                    passenger is also free. Second bag check fees are waived for loyalty program members. <a href="#"
+                        style="color: var(--primary-purple);">See the full bag policy.</a>
+                </p>
+                <div
+                    style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: var(--gray-light); border-radius: 8px;">
+                    <div>
+                        <p style="margin: 0; font-weight: 600;">Passenger 1</p>
+                        <p style="margin: 0; color: var(--gray-medium); font-size: 0.875rem;" id="passengerName">First
+                            Last</p>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <span style="color: var(--gray-medium);">Checked bags</span>
+                        <div
+                            style="display: flex; align-items: center; gap: 0.5rem; border: 2px solid var(--gray-light); border-radius: 8px; padding: 0.25rem;">
+                            <button onclick="decreaseBags()"
+                                style="background: none; border: none; font-size: 1.25rem; cursor: pointer; padding: 0 0.5rem;">-</button>
+                            <span id="bagCount" style="font-weight: 600; min-width: 30px; text-align: center;">1</span>
+                            <button onclick="increaseBags()"
+                                style="background: none; border: none; font-size: 1.25rem; cursor: pointer; padding: 0 0.5rem;">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div style="display: flex; gap: 1rem;">
+                <a href="flight-info.html" class="btn btn-secondary" style="flex: 1; text-align: center;">Save and
+                    close</a>
+                <button onclick="goToSeatSelection()" class="btn btn-primary" style="flex: 1;">Select seats</button>
+            </div>
+        </div>
+
+        <!-- Right Column: Flight Summary -->
+        <div>
+            <div class="card" style="position: sticky; top: 100px;">
+                <!-- Flight Details -->
+                <div style="margin-bottom: 1.5rem;">
+                    <div
+                        style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 2px solid var(--gray-light);">
+                        <div
+                            style="width: 40px; height: 40px; background: var(--primary-purple); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
+                            HA</div>
+                        <div>
+                            <p style="margin: 0; font-weight: 600;">Hawaiian Airlines</p>
+                            <p style="margin: 0; color: var(--gray-medium); font-size: 0.875rem;">FIG4312</p>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 0.75rem;">
+                        <p style="margin: 0; color: var(--gray-medium); font-size: 0.875rem;">16h 45m (+1d)</p>
+                        <p style="margin: 0; font-weight: 600;">7:00 AM - 4:15 PM</p>
+                        <p style="margin: 0; color: var(--gray-medium); font-size: 0.875rem;">2h 45m in HNL</p>
+                    </div>
+                </div>
+
+                <!-- Duplicate for return flight -->
+                <div style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 2px solid var(--gray-light);">
+                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                        <div
+                            style="width: 40px; height: 40px; background: var(--primary-purple); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
+                            HA</div>
+                        <div>
+                            <p style="margin: 0; font-weight: 600;">Hawaiian Airlines</p>
+                            <p style="margin: 0; color: var(--gray-medium); font-size: 0.875rem;">FIG4312</p>
+                        </div>
+                    </div>
+                    <div>
+                        <p style="margin: 0; color: var(--gray-medium); font-size: 0.875rem;">16h 45m (+1d)</p>
+                        <p style="margin: 0; font-weight: 600;">7:00 AM - 4:15 PM</p>
+                        <p style="margin: 0; color: var(--gray-medium); font-size: 0.875rem;">2h 45m in HNL</p>
+                    </div>
+                </div>
+
+                <!-- Price Summary -->
+                <div style="margin-bottom: 1.5rem;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem;">
+                        <span style="color: var(--gray-medium);">Subtotal</span>
+                        <span style="font-weight: 600;">$503</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem;">
+                        <span style="color: var(--gray-medium);">Taxes and Fees</span>
+                        <span style="font-weight: 600;">$121</span>
+                    </div>
+                    <hr style="border: none; border-top: 2px solid var(--gray-light); margin: 1rem 0;">
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="font-size: 1.25rem; font-weight: bold; color: var(--primary-purple);">Total</span>
+                        <span style="font-size: 1.25rem; font-weight: bold; color: var(--primary-purple);">$624</span>
+                    </div>
+                </div>
+
+                <button onclick="goToSeatSelection()" class="btn btn-primary" style="width: 100%;">Select seats</button>
+
+                <!-- Bag Visuals -->
+                <div style="margin-top: 2rem; padding-top: 2rem; border-top: 2px solid var(--gray-light);">
+                    <div style="display: flex; gap: 1rem; align-items: flex-end; justify-content: center;">
+                        <div style="text-align: center;">
+                            <div
+                                style="width: 60px; height: 80px; background: var(--primary-purple); border-radius: 8px; margin: 0 auto 0.5rem;">
+                            </div>
+                            <p style="margin: 0; font-size: 0.75rem; color: var(--gray-medium);">14" 36cm</p>
+                        </div>
+                        <div style="text-align: center;">
+                            <div
+                                style="width: 50px; height: 100px; background: #10B981; border-radius: 8px; margin: 0 auto 0.5rem;">
+                            </div>
+                            <p style="margin: 0; font-size: 0.75rem; color: var(--gray-medium);">9" 23cm × 22" 56cm</p>
+                        </div>
+                    </div>
+                    <p style="margin: 0.5rem 0 0 0; font-size: 0.75rem; color: var(--gray-medium); text-align: center;">
+                        *Dimensions include handles and wheels</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let bagCount = 1;
+
+        function toggleEmergencyContact() {
+            const checkbox = document.getElementById('sameAsPassenger');
+            const fields = document.getElementById('emergencyContactFields');
+
+            if (checkbox.checked) {
+                fields.style.display = 'none';
+                // Auto-fill from passenger 1
+                document.getElementById('emergencyFirstName').value = document.getElementById('firstName').value;
+                document.getElementById('emergencyLastName').value = document.getElementById('lastName').value;
+                document.getElementById('emergencyEmail').value = document.getElementById('email').value;
+                document.getElementById('emergencyPhone').value = document.getElementById('phone').value;
+            } else {
+                fields.style.display = 'block';
+            }
+        }
+
+        function increaseBags() {
+            if (bagCount < 3) {
+                bagCount++;
+                document.getElementById('bagCount').textContent = bagCount;
+            }
+        }
+
+        function decreaseBags() {
+            if (bagCount > 0) {
+                bagCount--;
+                document.getElementById('bagCount').textContent = bagCount;
+            }
+        }
+
+        // Update passenger name display
+        document.getElementById('firstName').addEventListener('input', updatePassengerName);
+        document.getElementById('lastName').addEventListener('input', updatePassengerName);
+
+        function updatePassengerName() {
+            const firstName = document.getElementById('firstName').value || 'First';
+            const lastName = document.getElementById('lastName').value || 'Last';
+            document.getElementById('passengerName').textContent = `${firstName} ${lastName}`;
+        }
+
+        function goToSeatSelection() {
+            // Validate required fields
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const dob = document.getElementById('dob').value;
+            const knownTraveler = document.getElementById('knownTraveler').value;
+
+            if (!firstName || !lastName || !email || !phone || !dob || !knownTraveler) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            // Save passenger info and proceed to seat selection
+            window.location.href = 'seat-selection.html';
+        }
+    </script>
+</body>
+
+</html>
