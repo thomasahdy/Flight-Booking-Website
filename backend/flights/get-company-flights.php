@@ -21,7 +21,14 @@ include '../config/database.php';
 $companyId = $_SESSION['user_id'];
 
 try{
-    $query = "SELECT f.flight_id, f.flight_name, f.status, f.max_passengers, f.pending_count, f.registered_count
+    $query = "SELECT f.flight_id,
+            f.flight_name,
+            f.status,
+            f.max_passengers,
+            f.pending_count,
+            f.registered_count,
+            f.fees,
+            f.completed
     FROM flights f
     WHERE f.company_id = ?";
     
