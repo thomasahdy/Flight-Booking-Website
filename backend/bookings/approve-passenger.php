@@ -47,14 +47,19 @@ try{
     $stmtUser = $db->prepare("SELECT account_balance FROM passengers WHERE id = :user_id");
     $stmtUser->execute([':user_id' => $passengerId]);
     $passenger = $stmtUser->fetch(PDO::FETCH_ASSOC);
-    if (!$passenger) {
+    if (!$passenger || $passenger['account_balance'] < $flightFees) {
         http_response_code(400);
         echo json_encode(['success' => false,
             'error' => 'Passenger not found']);
         exit;
     }   
-    
+
     $db->beginTransaction();
+    $stmtDeduct = $db->prepare("UPDATE passengers SET account_balance = account_balance - :amount WHERE user_id = :user_id");
+    $stmtDeduct->execute([':amount' => $flightFees, ':user_id' => $passengerId]);
+
+    $stmtCredit = $db->prepare("UPDATE companies SET account_balance = account_balance + :amount WHERE user_id = :company_id");
+    $stmtCredit->execute([':amount' => $flightFees, ':company_id' => $_SESSION['user_id']]);
     
     $stmtUpdateBooking = $db->prepare("UPDATE flight_passengers SET status = 'registered' WHERE flight_id = :flight_id AND user_id = :user_id");
     $stmtUpdateBooking->execute([':flight_id' => $flightId, ':user_id' => $passengerId]);
