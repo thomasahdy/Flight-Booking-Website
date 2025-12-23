@@ -1,0 +1,91 @@
+/* ===== Company Home ===== */
+
+.company-home {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+}
+
+/* ===== Header ===== */
+.company-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.company-logo {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--gray-light);
+}
+
+.company-name {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--primary-blue);
+}
+
+/* ===== Actions ===== */
+.company-actions {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.company-actions button {
+    padding: 0.7rem 1.3rem;
+    border-radius: 0.75rem;
+    border: none;
+    background-color: var(--primary-blue);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.company-actions button:hover {
+    background-color: var(--purple-dark);
+    box-shadow: var(--shadow-medium);
+}
+
+/* ===== Flights Section ===== */
+.flights-section {
+    background: var(--white);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow-medium);
+}
+
+.flights-section h2 {
+    margin-bottom: 1rem;
+}
+
+/* ===== Flights Table ===== */
+.flights-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.flights-table th,
+.flights-table td {
+    padding: 0.9rem;
+    border-bottom: 1px solid var(--gray-light);
+    text-align: left;
+}
+
+.flights-table th {
+    background-color: var(--gray-light);
+    font-weight: 600;
+}
+
+.flights-table tr {
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.flights-table tr:hover {
+    background-color: #f5f7fa;
+}

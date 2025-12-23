@@ -1,0 +1,108 @@
+
+
+.company-profile {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+}
+
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.profile-logo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--gray-light);
+}
+
+.profile-name {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--primary-blue);
+}
+
+
+.profile-info {
+    background: var(--white);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow-medium);
+    margin-bottom: 2rem;
+}
+
+.info-item {
+    margin-bottom: 1.2rem;
+}
+
+.info-item label {
+    display: block;
+    font-weight: 600;
+    color: var(--grey-900);
+    margin-bottom: 0.3rem;
+}
+
+.info-item p {
+    color: var(--grey-700);
+}
+
+
+.profile-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 2rem;
+}
+
+.profile-actions button {
+    padding: 0.6rem 1.3rem;
+    border-radius: 0.75rem;
+    border: none;
+    background-color: var(--primary-blue);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.profile-actions button:hover {
+    background-color: var(--purple-dark);
+    box-shadow: var(--shadow-medium);
+}
+
+
+.profile-flights {
+    background: var(--white);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow-medium);
+}
+
+.profile-flights h2 {
+    margin-bottom: 1rem;
+}
+
+.flights-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.flights-table th,
+.flights-table td {
+    padding: 0.9rem;
+    border-bottom: 1px solid var(--gray-light);
+}
+
+.flights-table tr {
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.flights-table tr:hover {
+    background-color: #f5f7fa;
+}
