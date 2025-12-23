@@ -33,10 +33,7 @@ $companyLogo = "../assets/logo.png";
              </a>
         </div>
 
-        <a href="companyprofile.php">
-            <button class="form-action-btn">Profile</button>
-        </a>
-        <a href="messages.php"><button>Messages</button></a>
+        <a href="companyprofile.php"><button>Profile</button></a>
     </div>
 
     
