@@ -95,6 +95,34 @@ function createDatabase()
             )
         ");
 
+        $conn->exec("
+            CREATE TABLE IF NOT EXISTS flights (
+                flight_id INT AUTO_INCREMENT PRIMARY KEY
+                company_id INT NOT NULL,
+                flight_name VARCHAR(255) NOT NULL,
+                fees DECIMAL(10,2) NOT NULL,
+                max_passengers INT NOT NULL,
+                registered_count INT DEFAULT 0,
+                pending_count INT DEFAULT 0,
+                completed BOOLEAN DEFAULT FALSE,
+                status ENUM('active', 'cancelled', 'completed') DEFAULT 'active',
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (company_id) REFERENCES companies(company_id) ON DELETE CASCADE
+            )
+        ");
+
+        $conn->exec("
+            CREATE TABLE IF NOT EXISTS itineraries (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                flight_id INT NOT NULL,
+                city_order INT NOT NULL,
+                city_name VARCHAR(255) NOT NULL,
+                arrival_time DATETIME NOT NULL
+                departure_time DATETIME NOT NULL,
+                FOREIGN KEY (flight_id) REFERENCES flights(flight_id) ON DELETE CASCADE
+            )
+        ");
+
         return getDBConnection();
     } catch (PDOException $e) {
         die("Database creation failed: " . $e->getMessage());
