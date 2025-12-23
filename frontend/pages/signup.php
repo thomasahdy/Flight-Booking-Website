@@ -1,8 +1,7 @@
 <?php
 
-require_once('frontend/includes/header.php');
+require_once('../includes/header.php');
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -10,13 +9,14 @@ require_once('frontend/includes/header.php');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="frontend/css/styles.css">
-    <link rel="stylesheet" href="frontend/css/auth-form.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/auth-form.css">
+    
 </head>
 <body>
     <main>
     <form class="form-container">
-        <h1 class="form-header">Welcome back, Login now!</h1>
+        <h1 class="form-header">Create account</h1>
         <div class="form-group">
             <div>
             <label for="email">Email</label>
@@ -31,14 +31,15 @@ require_once('frontend/includes/header.php');
             <button class="form-action-btn">Login</button>
         </div>
         <p class="">Don't have an account?
-            <a href="frontend/pages/signup.php"><span class=""><u>Signup here</u></span>    </a>
+            <a href="frontend\register.html"><span class=""><u>Signup here</u></span>    </a>
         </p>
     </form>
 </main>
+    
 </body>
 </html>
 
 <?php
 
-require_once('frontend/includes/footer.php');
+require_once('../includes/footer.php');
 ?>

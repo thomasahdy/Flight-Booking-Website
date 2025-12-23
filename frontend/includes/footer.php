@@ -1,21 +1,19 @@
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-column">
-                <h3>Tripma</h3>
-            </div>
-            
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-column">
+            <h3>Tripma</h3>
         </div>
-        <div class="footer-bottom">
-            <div class="social-icons">
-                <a href="#">🐦</a>
-                <a href="#">📷</a>
-                <a href="#">📘</a>
-            </div>
-            <p>© 2020 Tripma incorporated.</p>
+        
+    </div>
+    <div class="footer-bottom">
+        <div class="social-icons">
+            <a href="#">🐦</a>
+            <a href="#">📷</a>
+            <a href="#">📘</a>
         </div>
-    </footer>
-</body>
-</html>
+        <p>© 2020 Tripma incorporated.</p>
+    </div>
+</footer>
 

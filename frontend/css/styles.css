@@ -44,6 +44,11 @@ body {
     background-color: var(--white);
     line-height: 1.364;
 }
+/* 
+button:hover{
+    cursor:pointer;
+    box-shadow: 0px 12px 32px 0px rgba(0, 0, 0, 0.05), 0px 2px 4px 0px rgba(28, 5, 77, 0.1);
+} */
 
 /* Header Styles */
 .header {
@@ -63,6 +68,7 @@ body {
     margin: 0 auto;
     gap: 10px;
 }
+
 
 .logo {
     font-size: 1.5rem;
