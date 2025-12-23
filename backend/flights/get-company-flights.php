@@ -16,9 +16,19 @@ require '../middleware/authGuard.php';
 require '../middleware/roleGuard.php';
 roleGuard('company');
 
-include '../config/database.php';
+require '../config/database.php';
+header('Content-Type: application/json');
 
-$companyId = $_SESSION['user_id'];
+$data = json_decode(file_get_contents('php://input'), true);
+$stmt = $db->prepare("SELECT id FROM companies WHERE user_id = ?");
+$stmt->execute([$_SESSION['user_id']]);
+$companyId = $stmt->fetch(PDO::FETCH_ASSOC);
+if (!$companyId) {
+    http_response_code(403);
+    echo json_encode(['error' => 'Company not found for the user']);
+    exit;
+}
+$companyId = $companyId['id'];
 
 try{
     $query = "SELECT f.flight_id,

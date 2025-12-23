@@ -15,15 +15,24 @@ require '../middleware/authGuard.php';
 require '../middleware/roleGuard.php';
 roleGuard('company');
 
-include '../config/database.php';
+require '../config/database.php';
+header('Content-Type: application/json');
 
 $data = json_decode(file_get_contents('php://input'), true);
-$companyId = $_SESSION['user_id'];
+$stmt = $db->prepare("SELECT id FROM companies WHERE user_id = ?");
+$stmt->execute([$_SESSION['user_id']]);
+$companyId = $stmt->fetch(PDO::FETCH_ASSOC);
+if (!$companyId) {
+    http_response_code(403);
+    echo json_encode(['error' => 'Company not found for the user']);
+    exit;
+}
+$companyId = $companyId['id'];
 
-$flightName = trim($data['flight_name']);
-$fees = floatval($data['fees']);
-$maxPassengers = intval($data['max_passengers']);
-$itinerary = $data['itinerary'];
+$flightName = trim($data['flight_name']) ?? '';
+$fees = floatval($data['fees']) ?? -1;
+$maxPassengers = intval($data['max_passengers']) ?? 0;
+$itinerary = $data['itinerary'] ?? [];
 
 if (empty($flightName) || $fees < 0 || $maxPassengers <= 0 || !is_array($itinerary) || count($itinerary) < 2) {
     http_response_code(400);

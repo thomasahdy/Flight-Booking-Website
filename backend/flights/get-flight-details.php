@@ -9,7 +9,9 @@ Itinerary
 -->
 <?php
 require '../middleware/authGuard.php';
-include '../config/database.php';
+require '../config/database.php';
+
+header('Content-Type: application/json');
 
 $flightId = $_GET['flight_id'] ?? null;
 
@@ -19,9 +21,10 @@ if (empty($flightId) || !is_numeric($flightId)) {
             'error' => 'Invalid flight ID']);
         exit;
     }
+$userRole = $_SESSION['user_type'];
+$userId = $_SESSION['user_id'];
 
 try{
-    if
     $query = "SELECT f.flight_id,
             f.flight_name,
             f.status,
@@ -55,7 +58,38 @@ try{
     $intineraryStmt->execute([$flightId]);
     $itinerary = $intineraryStmt->fetchAll(PDO::FETCH_ASSOC);
 
-    $flight['intinerary'] = $itinerary;
+    $flight['itinerary'] = $itinerary;
+
+    if($userRole === 'company'){
+        $stmt = $db->prepare("SELECT id FROM companies WHERE user_id = ?");
+        $stmt->execute([$userId]);
+        $company = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (!$company || $company['id'] != $flight['company_id']) {
+            http_response_code(403);
+            echo json_encode(['success' => false,
+                'error' => 'Access denied']);
+            exit;
+        }
+
+        $stmt = $db->prepare("SELECT u.id, u.full_name, u.email, u.phone, fp.status FROM flight_passengers fp
+            JOIN users u ON fp.user_id = u.id
+            WHERE fp.flight_id = ?");
+
+        $stmt->execute([$flightId]);
+        $passengers = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $flight['passengers'] = [
+            'pending' => [],
+            'registered' => []
+        ];
+
+        foreach ($passengers as $p) {
+            if ($p['status'] === 'pending') {
+                $flight['passengers']['pending'][] = $p;
+            } elseif ($p['status'] === 'registered') {
+                $flight['passengers']['registered'][] = $p;
+            }
+        }
+    }
 
     http_response_code(200);
     echo json_encode(['success' => true,

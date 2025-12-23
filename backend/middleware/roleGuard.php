@@ -19,18 +19,20 @@ function roleGuard($requiredRole) {
     }
     
     // Check if user role is set in session
-    if (!isset($_SESSION['user_role'])) {
+    if (!isset($_SESSION['user_type'])) {
         http_response_code(403);
-        echo json_encode(["error" => "Access denied. No role assigned."]);
+        header('Content-Type: application/json');
+        echo json_encode(['success' => false, "error" => "Access denied. No role assigned."]);
         exit();
     }
 
     // compare roles
-    $currentUserRole = $_SESSION['user_role'];
+    $currentUserRole = $_SESSION['user_type'];
 
     if ($currentUserRole !== $requiredRole) {
         http_response_code(403);
-        echo json_encode(["error" => "Access denied. Insufficient permissions."]);
+        header('Content-Type: application/json');
+        echo json_encode(['success' => false, "error" => "Access denied. Insufficient permissions."]);
         exit();
     }
 }
