@@ -28,7 +28,7 @@ require_once('frontend/includes/header.php');
             </div>
         </div>
         <div class="form-action-btn-container">
-            <button class="form-action-btn">Login</button>
+            <button class="form-action-btn" type="submit">Login</button>
         </div>
         <p class="">Don't have an account?
             <a href="frontend/pages/signup.php"><span class=""><u>Signup here</u></span></a>
