@@ -1,0 +1,42 @@
+<?php
+
+require_once('../includes/header.php');
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>signup</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="../../css/auth-form.css">
+    
+</head>
+<body>
+    <main>
+    <form class="form-container">
+        <h1 class="form-header">Create account as a company</h1>
+        <div class="form-group">
+            <div>
+                <label for="Username">Username</label>
+                <input type="text" name="username" id="username">
+            </div>
+            <div>
+                <label for="logoImg">Logo image</label>
+                <input type="image" src="img_submit.gif" alt="add your logo here" width="48" height="48" name="logoImg" id="logoImg">
+            </div>
+            
+        <div class="form-action-btn-container">
+            <button class="form-action-btn" style="width: 7rem;">Register</button>
+        </div>
+    </form>
+</main>
+    
+</body>
+</html>
+
+<?php
+
+require_once('../includes/footer.php');
+?>

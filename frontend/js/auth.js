@@ -3,6 +3,7 @@
  * Shared functions for handling user authentication state
  */
 
+
 const Auth = {
 
     apiPath: '/FlightBookingWebsite/backend/auth',
@@ -105,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-async function handleLogin(e) {
+function handleLogin(e) {
             e.preventDefault();
 
             const email = document.getElementById('email').value.trim().toLowerCase();
@@ -115,74 +116,37 @@ async function handleLogin(e) {
             // Disable button and show loading
             submitBtn.disabled = true;
             submitBtn.textContent = 'Signing in...';
+            console.log('Sending login request for:', email);
 
-            try {
-                console.log('Sending login request for:', email);
-                
-                const response = await fetch('../backend/auth/login.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ email, password })
-                });
-
-                console.log('Response status:', response.status, response.statusText);
-                
-                // Check if response is OK
-                if (!response.ok) {
-                    const errorText = await response.text();
-                    console.error('Response error:', errorText);
-                    try {
-                        const errorData = JSON.parse(errorText);
-                        alert('Login failed: ' + (errorData.message || errorText));
-                    } catch (e) {
-                        alert('Login failed: ' + errorText);
-                    }
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Sign in';
-                    return;
-                }
-
-                const responseText = await response.text();
-                console.log('Response text:', responseText);
-                
-                let data;
-                try {
-                    data = JSON.parse(responseText);
-                } catch (e) {
-                    console.error('Failed to parse JSON:', e);
-                    console.error('Response was:', responseText);
-                    alert('Server returned invalid response. Check console for details.');
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Sign in';
-                    return;
-                }
-
-                console.log('Parsed response data:', data);
-
+            fetch("../backend/auth/login.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
                 if (data.success) {
-                    // Store user data in localStorage for frontend use
-                    localStorage.setItem('user', JSON.stringify(data.user));
-                    console.log('Login successful, redirecting...');
-                    // Redirect based on user type
-                    window.location.href = data.redirect;
+                    currentUsers = {...data.user};
+                    alert(data.message);
+                    // window.location.href = home;
                 } else {
-                    // Show detailed error message
-                    let errorMsg = data.message || 'Login failed. Please try again.';
-                    if (data.error) {
-                        console.error('Server error:', data.error);
-                        errorMsg += '\n\nError details: ' + data.error;
-                    }
-                    alert(errorMsg);
+                    alert(data.message);
                     submitBtn.disabled = false;
-                    submitBtn.textContent = 'Sign in';
+
                 }
-            } catch (error) {
-                console.error('Login error:', error);
-                console.error('Error stack:', error.stack);
-                alert('Network error occurred. Please check:\n1. XAMPP MySQL is running\n2. Apache is running\n3. Check browser console for details');
+            })
+            .catch(err => {
+                console.error(err);
+                alert("Server error. Please try again.");
                 submitBtn.disabled = false;
-                submitBtn.textContent = 'Sign in';
-            }
-        }
+
+            });
+
+                }
+
+
