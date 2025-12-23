@@ -18,6 +18,19 @@
         <label>Username</label>
         <input type="text" name="username" required>
     </div>
+    <div class="form-group">
+        <label>Bio</label>
+        <textarea name="bio" rows="3" required></textarea>
+    </div>
+    <div class="form-group">
+        <label>Address</label>
+        <input type="text" name="address" required>
+    </div>
+       <div class="form-group">
+        <label>Location (optional)</label>
+        <input type="text" name="location">
+    </div>
+
 
     <div class="form-group">
         <label>Logo Image</label>

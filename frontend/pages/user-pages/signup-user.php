@@ -15,7 +15,8 @@ require_once('../../includes/header.php');
 </head>
 <body>
     <main>
-    <form class="form-container" method="POST" enctype="multipart/form-data">
+    <form class="form-container" enctype="multipart/form-data"
+      onsubmit="submitPassengerForm(event)">
         <h1 class="form-header">Create account as a user</h1>
         <div class="form-group">
             <div>
@@ -33,6 +34,8 @@ require_once('../../includes/header.php');
         </div>
     </form>
 </main>
+<script src="../../js/signup-user.js"></script>
+
     
 </body>
 </html>
