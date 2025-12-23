@@ -20,14 +20,9 @@ include '../config/database.php';
 $data = json_decode(file_get_contents('php://input'), true);
 $companyId = $_SESSION['user_id'];
 
-$flightID = uniqid('flight_');
 $flightName = trim($data['flight_name']);
 $fees = floatval($data['fees']);
 $maxPassengers = intval($data['max_passengers']);
-$registeredCount = 0;
-$pendingCount = 0;
-$completed = FALSE;
-$status = 'active';
 $itinerary = $data['itinerary'];
 
 if (empty($flightName) || $fees < 0 || $maxPassengers <= 0 || !is_array($itinerary) || count($itinerary) < 2) {
@@ -37,7 +32,7 @@ if (empty($flightName) || $fees < 0 || $maxPassengers <= 0 || !is_array($itinera
 }
 
 foreach ($itinerary as $city) {
-    if (empty(trim($city['city_name'])) || empty(trim($city['arrival_time'])) || empty(trim($city['departure_time']))) {
+    if (empty(trim($city['city_name'])) ||  empty(trim($city['arrival_day'])) || empty(trim($city['arrival_time'])) || empty(trim($city['departure_day'])) || empty(trim($city['departure_time']))) {
         http_response_code(400);
         echo json_encode(['error' => 'Invalid itinerary data']);
         exit;
@@ -47,9 +42,10 @@ foreach ($itinerary as $city) {
 try {
     $db->beginTransaction();
 
-    $stmt = $db->prepare("INSERT INTO flights (flight_id, company_id, flight_name, fees, max_passengers, registered_count, pending_count, completed, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->execute([$flightID, $companyId, $flightName, $fees, $maxPassengers, $registeredCount, $pendingCount, $completed, $status]);
+    $stmt = $db->prepare("INSERT INTO flights (company_id, flight_name, fees, max_passengers) VALUES (?, ?, ?, ?)");
+    $stmt->execute([$companyId, $flightName, $fees, $maxPassengers]);
 
+    $flightID = $db->lastInsertId();
     $stmtItinerary = $db->prepare("INSERT INTO itineraries (flight_id, city_order, city_name, arrival_time, departure_time) VALUES (?, ?, ?, ?, ?)");
 
     foreach ($itinerary as $index => $city) {
