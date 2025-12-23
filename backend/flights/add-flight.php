@@ -12,6 +12,7 @@ Set flight status = active
 <?php
 
 require '../middleware/authGuard.php';
+require '../middleware/roleGuard.php';
 roleGuard('company');
 
 include '../config/database.php';
