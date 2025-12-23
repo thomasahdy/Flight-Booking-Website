@@ -1,5 +1,4 @@
 <?php
-
 require_once('frontend/includes/header.php');
 ?>
 
@@ -19,12 +18,12 @@ require_once('frontend/includes/header.php');
         <h1 class="form-header">Welcome back, Login now!</h1>
         <div class="form-group">
             <div>
-            <label for="email">Email</label>
-            <input type="email" name="email">
+            <label for="email" >Email</label>
+            <input type="email" name="email" id="email">
             </div>
             <div>
-                <label for="password">Password</label>
-                <input type="password" name="password">
+                <label for="password" >Password</label>
+                <input type="password" name="password" id="password">
             </div>
         </div>
         <div class="form-action-btn-container">
@@ -40,6 +39,5 @@ require_once('frontend/includes/header.php');
 </html>
 
 <?php
-
 require_once('frontend/includes/footer.php');
 ?>

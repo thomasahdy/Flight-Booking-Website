@@ -20,22 +20,21 @@ require_once('../includes/header.php');
         <div class="form-group">
             <div>
             <label for="email">Email</label>
-            <input type="email" name="email">
+            <input type="email" name="email" id="email">
             </div>
             <div>
             <label for="name">Name</label>
-            <input type="text" name="name">
+            <input type="text" name="name" id="name">
             </div>
             <div>
             <label for="tel">Telephone</label>
-            <input type="tel" name="tel">
+            <input type="tel" name="tel" id="tel">
             </div>
             <div>
-            <label for="email">Type</label>
+            <label for="type">Type</label>
             <select id="type" name="type" required>
-                    <option value="">Select account type</option>
-                    <option value="company">Company</option>
                     <option value="passenger">Passenger</option>
+                    <option value="company">Company</option>
             </select>
             </div>
             <div>
@@ -44,13 +43,11 @@ require_once('../includes/header.php');
             </div>
         </div>
         <div class="form-action-btn-container">
-            <button class="form-action-btn" style="width: 7rem;">Continue ></button>
+            <button class="form-action-btn" style="width: 7rem;" onclick="continueRegisteration(event)">Continue ></button>
         </div>
-        <p class="">Don't have an account?
-            <a href="frontend\register.html"><span class=""><u>Signup here</u></span>    </a>
-        </p>
     </form>
 </main>
+<script src="../js/signup.js"></script>
     
 </body>
 </html>
