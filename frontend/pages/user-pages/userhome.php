@@ -24,6 +24,8 @@ $user = [
 <body>
 
 <main class="company-home">
+
+    
     <div class="company-header">
         <img src="<?= $user['photo'] ?>" class="company-logo" alt="User photo">
         <h1 class="company-name"><?= $user['name'] ?></h1>
@@ -49,13 +51,12 @@ $user = [
     
     <div class="company-actions">
         <div class="profile-actions">
-            <a href="addflight.php">
+            <a href="../../flight-pages/search-flight.php">
              <button class="form-action-btn">Search Flight</button>
              </a>
         </div>
 
         <a href="userprofile.php"><button>Profile</button></a>
-        <a href="messages.php"><button>Messages</button></a>
     </div>
     
     <section class="flights-section">

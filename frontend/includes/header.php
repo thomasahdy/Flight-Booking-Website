@@ -10,13 +10,13 @@
 <header class="header">
     
     <nav class="navbar">
-        <a href="index.php" class="logo">Tripma</a>
+        <a href="/Flight-Booking-Website-main/index.php" class="logo">Tripma</a>
         <ul class="nav-links">
-            <li><a href="../search-flight.html">Flights</a></li>
-            <li><a href="#">Hotels</a></li>
-            <li><a href="../pages/profile.php">Profile</a></li>
-            <li><a href="frontend\login.html">Sign in</a></li>
-            <li><a href="frontend\register.html" class="btn btn-primary">Sign up</a></li>
+            <li><a href="/Flight-Booking-Website-main/frontend/pages/flight-pages/search-flight.php">Flights</a></li>
+       
+            <li><a href="/Flight-Booking-Website-main/frontend/pages/profile.php">Profile</a></li>
+            <li><a href="/Flight-Booking-Website-main/index.php">Sign in</a></li>
+            <li><a href="/Flight-Booking-Website-main/frontend/pages/signup.php" class="btn btn-primary">Sign up</a></li>
         </ul>
     </nav>
 </header>

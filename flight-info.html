@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Information - Tripma</title>
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="index.html" class="logo">Tripma</a>
+            <ul class="nav-links">
+                <li><a href="search-flight.html">Flights</a></li>
+                <li><a href="login.html">Sign in</a></li>
+                <li><a href="register.html" class="btn btn-primary">Sign up</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Flight Information -->
+    <div class="container">
+        <div style="margin-bottom: 2rem;">
+            <a href="search-flight.html" style="color: var(--primary-purple); text-decoration: none;">← Back to Search</a>
+        </div>
+
+        <!-- Flight Details Card -->
+        <div class="card" style="margin-bottom: 2rem;">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                <div style="width: 60px; height: 60px; background: var(--primary-purple); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">HA</div>
+                <div>
+                    <h1 style="color: var(--primary-purple); margin: 0;">Hawaiian Airlines</h1>
+                    <p style="color: var(--gray-medium); margin: 0.25rem 0 0 0;">FIG4312</p>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                <div>
+                    <p style="color: var(--gray-medium); margin-bottom: 0.25rem;">Flight ID</p>
+                    <p style="font-size: 1.25rem; font-weight: 600;">FL-001</p>
+                </div>
+                <div>
+                    <p style="color: var(--gray-medium); margin-bottom: 0.25rem;">Duration</p>
+                    <p style="font-size: 1.25rem; font-weight: 600;">16h 45m (+1d)</p>
+                </div>
+                <div>
+                    <p style="color: var(--gray-medium); margin-bottom: 0.25rem;">Departure</p>
+                    <p style="font-size: 1.25rem; font-weight: 600;">7:00 AM</p>
+                    <p style="color: var(--gray-medium); font-size: 0.875rem;">Feb 25, SFO</p>
+                </div>
+                <div>
+                    <p style="color: var(--gray-medium); margin-bottom: 0.25rem;">Arrival</p>
+                    <p style="font-size: 1.25rem; font-weight: 600;">4:15 PM</p>
+                    <p style="color: var(--gray-medium); font-size: 0.875rem;">Mar 21, NRT</p>
+                </div>
+                <div>
+                    <p style="color: var(--gray-medium); margin-bottom: 0.25rem;">Layover</p>
+                    <p style="font-size: 1.25rem; font-weight: 600;">2h 45m in HNL</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Itinerary -->
+        <div class="card" style="margin-bottom: 2rem;">
+            <h2 style="color: var(--primary-purple); margin-bottom: 1rem;">Itinerary</h2>
+            <div style="line-height: 2;">
+                <p><strong>From:</strong> San Francisco International Airport (SFO), California, US</p>
+                <p><strong>To:</strong> Narita International Airport (NRT), Tokyo, Japan</p>
+                <p><strong>Departure Date:</strong> February 25, 2024</p>
+                <p><strong>Departure Time:</strong> 7:00 AM</p>
+                <p><strong>Arrival Date:</strong> March 21, 2024</p>
+                <p><strong>Arrival Time:</strong> 4:15 PM</p>
+                <p><strong>Total Duration:</strong> 16h 45m</p>
+                <p><strong>Stops:</strong> 1 stop</p>
+                <p><strong>Layover:</strong> Honolulu International Airport (HNL) - 2h 45m</p>
+            </div>
+        </div>
+
+        <!-- Price Summary -->
+        <div class="card" style="margin-bottom: 2rem;">
+            <h2 style="color: var(--primary-purple); margin-bottom: 1rem;">Price Summary</h2>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span style="color: var(--gray-medium);">Subtotal</span>
+                <span style="font-weight: 600;">$503</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span style="color: var(--gray-medium);">Taxes and Fees</span>
+                <span style="font-weight: 600;">$121</span>
+            </div>
+            <hr style="border: none; border-top: 2px solid var(--gray-light); margin: 1rem 0;">
+            <div style="display: flex; justify-content: space-between;">
+                <span style="font-size: 1.25rem; font-weight: bold; color: var(--primary-purple);">Total</span>
+                <span style="font-size: 1.25rem; font-weight: bold; color: var(--primary-purple);">$624</span>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="card" style="margin-bottom: 2rem;">
+            <h2 style="color: var(--primary-purple); margin-bottom: 1rem;">Book This Flight</h2>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <a href="passenger-information.html" class="btn btn-primary" style="flex: 1; min-width: 200px; text-align: center;">Take it? Book Now</a>
+                <a href="messages.html?company=hawaiian" class="btn btn-secondary" style="flex: 1; min-width: 200px; text-align: center;">Message the Company</a>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Tripma</h3>
+            </div>
+            <div class="footer-column">
+                <h3>Support</h3>
+                <a href="#">Help Center</a>
+                <a href="#">Contact us</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2020 Tripma incorporated.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Flight info page - booking flow now goes to seat selection
+    </script>
+</body>
+</html>
+
