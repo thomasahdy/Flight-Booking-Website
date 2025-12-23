@@ -43,6 +43,17 @@ try{
             'error' => 'No pending booking found for this passenger on the specified flight']);
         exit;
     }  
+
+    $stmtUser = $db->prepare("SELECT account_balance FROM passengers WHERE id = :user_id");
+    $stmtUser->execute([':user_id' => $passengerId]);
+    $passenger = $stmtUser->fetch(PDO::FETCH_ASSOC);
+    if (!$passenger) {
+        http_response_code(400);
+        echo json_encode(['success' => false,
+            'error' => 'Passenger not found']);
+        exit;
+    }   
+    
     $db->beginTransaction();
     
     $stmtUpdateBooking = $db->prepare("UPDATE flight_passengers SET status = 'registered' WHERE flight_id = :flight_id AND user_id = :user_id");
@@ -54,6 +65,7 @@ try{
 
     echo json_encode(['success' => true,
         'message' => 'Passenger approved successfully']);
+
 }catch (Exception $e) {
     http_response_code(500);
     echo json_encode(['success' => false,
