@@ -15,7 +15,7 @@ require_once('../includes/header.php');
 </head>
 <body>
     <main>
-    <form class="form-container">
+    <form class="form-container" onsubmit="continueRegisteration(event)"> 
         <h1 class="form-header">Create account</h1>
         <div class="form-group">
             <div>
@@ -43,7 +43,10 @@ require_once('../includes/header.php');
             </div>
         </div>
         <div class="form-action-btn-container">
-            <button class="form-action-btn" style="width: 7rem;" onclick="continueRegisteration(event)">Continue ></button>
+           <button type="submit" class="form-action-btn" style="width: 7rem;">
+             Continue >
+            </button>
+
         </div>
     </form>
 </main>

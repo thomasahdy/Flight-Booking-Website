@@ -1,23 +1,23 @@
-let newUser = {
+let newUser = {};
 
-}
-
-
-function continueRegisteration(event){
+function continueRegisteration(event) {
     event.preventDefault();
-    newUser.email = document.getElementById("email").value;
-    newUser.name = document.getElementById("name").value;
-    newUser.tel = document.getElementById("tel").value;
-    let selectedIndex = document.getElementById("type").value.selectedIndex;
-    switch(selectedIndex)
-    {
-        case 0: newUser.type = "passenger"; break;
-        case 1: newUser.type = "compamy"; break;
+
+    const email = document.getElementById("email").value.trim();
+    const name = document.getElementById("name").value.trim();
+    const tel = document.getElementById("tel").value.trim();
+    const type = document.getElementById("type").value;
+    const password = document.querySelector('input[name="password"]').value;
+
+    if (!email || !name || !tel || !password) {
+        alert("Please fill all fields");
+        return;
     }
-    newUser.password = document.getElementById("password").value;
-    console.log(newUser);
-    
-    
 
-
+    
+    if (type === "company") {
+        window.location.href = "../pages/company-pages/signup-company.php";
+    } else if (type === "passenger") {
+        window.location.href = "../pages/user-pages/signup-user.php";
+    }
 }
