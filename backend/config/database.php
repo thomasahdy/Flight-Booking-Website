@@ -71,11 +71,10 @@ function createDatabase()
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 user_id INT NOT NULL UNIQUE,
                 profile_image VARCHAR(500),
-                date_of_birth DATE,
-                nationality VARCHAR(100),
+                passport_image VARCHAR(500),
                 passport_number VARCHAR(50),
-                emergency_contact_name VARCHAR(255),
-                emergency_contact_phone VARCHAR(50),
+                passport_number VARCHAR(50),
+                account_balance DECIMAL(10,2) DEFAULT 0,
                 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
             )
         ");
@@ -89,8 +88,8 @@ function createDatabase()
                 logo_url VARCHAR(500),
                 bio TEXT,
                 address TEXT,
-                license_number VARCHAR(100),
-                tax_id VARCHAR(100),
+                location VARCHAR(255),
+                account_balance DECIMAL(10,2) DEFAULT 0,
                 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
             )
         ");
