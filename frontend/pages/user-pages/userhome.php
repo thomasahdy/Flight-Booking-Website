@@ -24,8 +24,6 @@ $user = [
 <body>
 
 <main class="company-home">
-
-    
     <div class="company-header">
         <img src="<?= $user['photo'] ?>" class="company-logo" alt="User photo">
         <h1 class="company-name"><?= $user['name'] ?></h1>
