@@ -43,8 +43,8 @@ $company = [
 
     <!-- ===== Actions ===== -->
     <div class="profile-actions">
-        <a href="edit-company-profile.php">
-            <button>Edit Profile</button>
+        <a href="companyhome.php">
+            <button>Back</button>
         </a>
     </div>
 

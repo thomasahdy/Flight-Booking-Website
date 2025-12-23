@@ -33,7 +33,7 @@ const Auth = {
             console.error('Logout error:', e);
         }
         localStorage.removeItem('user');
-        window.location.href = '/FlightBookingWebsite/frontend/login.html';
+        window.location.href = '../../backend/auth/login.php';
     },
 
 
@@ -61,15 +61,15 @@ const Auth = {
         const loggedIn = await this.checkSession();
 
         if (!loggedIn) {
-            window.location.href = '/FlightBookingWebsite/frontend/login.html';
+            window.location.href = '../../backend/auth/login.php';
             return false;
         }
 
         if (allowedTypes && !allowedTypes.includes(this.getUserType())) {
             alert('Access denied. You do not have permission to view this page.');
             window.location.href = this.getUserType() === 'company'
-                ? '/FlightBookingWebsite/frontend/company-home.html'
-                : '/FlightBookingWebsite/frontend/passenger-home.html';
+                ? 'pages/company-pages/companyhome.php'
+                : 'pages/user-pages/userhome.php';
             return false;
         }
 
@@ -105,7 +105,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-let currentUser = {};
 
 function handleLogin(e) {
             e.preventDefault();
@@ -122,9 +121,8 @@ function handleLogin(e) {
             fetch("../backend/auth/login.php", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json",
+                    "Content-Type": "application/json"
                 },
-                credentials: "include",
                 body: JSON.stringify({
                     email: email,
                     password: password
@@ -150,7 +148,5 @@ function handleLogin(e) {
             });
 
                 }
-
-
 
 

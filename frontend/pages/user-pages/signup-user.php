@@ -1,18 +1,13 @@
-<?php
-
-require_once('../../includes/header.php');
-?>
+<?php require_once('../../includes/header.php'); ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>signup</title>
+    <title>Passenger Register</title>
     <link rel="stylesheet" href="../../css/styles.css">
     <link rel="stylesheet" href="../../css/auth-form.css">
-    
 </head>
+
 <body>
     <main>
     <form class="form-container" enctype="multipart/form-data"
@@ -40,7 +35,4 @@ require_once('../../includes/header.php');
 </body>
 </html>
 
-<?php
-
-require_once('../../includes/footer.php');
-?>
+<?php require_once('../../includes/footer.php'); ?>
