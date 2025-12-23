@@ -72,7 +72,7 @@ try {
         exit;
     }
 
-  
+
     $stmt = $conn->prepare("
         UPDATE companies 
         SET company_name = ?,
