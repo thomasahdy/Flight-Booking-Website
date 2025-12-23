@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tripma - Book Your Next Adventure</title>
     <link rel="stylesheet" href="frontend/css/styles.css">
+    <link rel="stylesheet" href="frontend/css/auth-form.css">
+    
 </head>
 
 <body>
@@ -25,7 +27,7 @@
             <ul class="nav-links">
                 <li><a href="../search-flight.html">Flights</a></li>
                 <li><a href="#">Hotels</a></li>
-                <li><a href="#">Packages</a></li>
+                <li><a href="../pages/profile.php">Profile</a></li>
                 <li><a href="frontend\login.html">Sign in</a></li>
                 <li><a href="frontend\register.html" class="btn btn-primary">Sign up</a></li>
             </ul>
