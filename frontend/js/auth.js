@@ -105,6 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+let currentUser = {};
 
 function handleLogin(e) {
             e.preventDefault();
@@ -121,8 +122,9 @@ function handleLogin(e) {
             fetch("../backend/auth/login.php", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
                 },
+                credentials: "include",
                 body: JSON.stringify({
                     email: email,
                     password: password
@@ -148,5 +150,7 @@ function handleLogin(e) {
             });
 
                 }
+
+
 
 

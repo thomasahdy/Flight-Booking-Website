@@ -18,6 +18,7 @@ $user = [
     <title>User Profile</title>
     <link rel="stylesheet" href="../../css/styles.css">
     <link rel="stylesheet" href="../../css/companyprofile.css">
+    <link rel="stylesheet" href="../../css/auth-form.css">
 </head>
 <body>
 
@@ -25,24 +26,24 @@ $user = [
 
     
     <div class="profile-header">
-        <img src="<?= $user['photo'] ?>" class="profile-logo" alt="user profile">
-        <h1 class="profile-name"><?= $user['name'] ?></h1>
+        <img src="<?= $user['photo'] ?>" id="userPhoto" class="profile-logo" alt="user profile">
+        <h1 class="profile-name" id="userPhoto"><?= $user['name'] ?></h1>
     </div>
 
     <!-- ===== Info ===== -->
     <div class="profile-info">
         <div class="info-item">
             <label>Email</label>
-            <p><?= $user['email'] ?></p>
+            <p id="userEmail"><?= $user['email'] ?></p>
         </div>
 
         <div class="info-item">
             <label>Telephone</label>
-            <p><?= $user['telephone'] ?></p>
+            <p id="userTel"><?= $user['telephone'] ?></p>
         </div>
         <div class="info-item">
             <label>Passport image</label>
-            <img src="<?= $user['passportImg'] ?>" class="" alt="user passport image">
+            <img id="userPassportImg" src="<?= $user['passportImg'] ?>" class="" alt="user passport image">
         </div>
     </div>
 
@@ -53,8 +54,45 @@ $user = [
         </a>
     </div>
 
-</main>
+    <form class="form-container" onsubmit="handleEditUser(event)"> 
+        <div class="form-group">
+            <div class>
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email">
+            </div>
+            <div>
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name">
+            </div>
+            <div>
+            <label for="tel">Telephone</label>
+            <input type="tel" name="tel" id="tel">
+            </div>
+            
+            <div >
+        <label>Username</label>
+        <input type="text" name="name" id="username" required>
+        </div>
 
+    <div>
+        <label>Profile Photo</label>
+        <input type="file" name="photo" accept="image/*" id="photo" required>
+    </div>
+
+    <div >
+        <label>Passport Image</label>
+        <input type="file" name="passportImg" accept="image/*" id="passportImg" required>
+    </div>
+
+        </div>
+        <div class="form-action-btn-container">
+        <button type="submit" class="form-action-btn">Confirm</button>
+    </div>
+    </form>
+
+</main>
+<script src="../../js/user-profile.js"></script>
+<script src="../../js/auth.js"></script>
 </body>
 </html>
 

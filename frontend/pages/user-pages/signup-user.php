@@ -15,7 +15,7 @@
     <h1 class="form-header">Create account as a passenger</h1>
 
     <div class="form-group">
-        <label>Name</label>
+        <label>Username</label>
         <input type="text" name="name" required>
     </div>
 
