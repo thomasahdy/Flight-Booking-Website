@@ -97,7 +97,7 @@ function createDatabase()
 
         $conn->exec("
             CREATE TABLE IF NOT EXISTS flights (
-                flight_id INT AUTO_INCREMENT PRIMARY KEY
+                flight_id INT AUTO_INCREMENT PRIMARY KEY,
                 company_id INT NOT NULL,
                 flight_name VARCHAR(255) NOT NULL,
                 fees DECIMAL(10,2) NOT NULL,
@@ -107,7 +107,7 @@ function createDatabase()
                 completed BOOLEAN DEFAULT FALSE,
                 status ENUM('active', 'cancelled', 'completed') DEFAULT 'active',
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (company_id) REFERENCES companies(company_id) ON DELETE CASCADE
+                FOREIGN KEY (company_id) REFERENCES companies(id) ON DELETE CASCADE
             )
         ");
 
@@ -117,9 +117,31 @@ function createDatabase()
                 flight_id INT NOT NULL,
                 city_order INT NOT NULL,
                 city_name VARCHAR(255) NOT NULL,
-                arrival_time DATETIME NOT NULL
+                arrival_time DATETIME NOT NULL,
                 departure_time DATETIME NOT NULL,
                 FOREIGN KEY (flight_id) REFERENCES flights(flight_id) ON DELETE CASCADE
+            )
+        ");
+
+        $conn->exec("
+            CREATE TABLE IF NOT EXISTS flight_passengers (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                flight_id INT NOT NULL,
+                user_id INT NOT NULL,
+                status ENUM('pending', 'registered', 'completed') DEFAULT 'pending',
+                FOREIGN KEY (flight_id) REFERENCES flights(flight_id) ON DELETE CASCADE,
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+            )
+        ");
+
+        $conn->exec("
+            CREATE TABLE IF NOT EXISTS messages (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                sender_id INT NOT NULL,
+                receiver_id INT NOT NULL,
+                message TEXT NOT NULL,
+                FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE,
+                FOREIGN KEY (receiver_id) REFERENCES users(id) ON DELETE CASCADE
             )
         ");
 
