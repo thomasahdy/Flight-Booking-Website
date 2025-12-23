@@ -22,9 +22,14 @@ function register(){
     {
         createCompanyProfile($userID);
     }
-    else
-    {
-        createPassengerprofile($userID);
+
+
+    if ($data['type'] === 'passenger') {
+        $stmt = $conn->prepare("INSERT INTO passengers (user_id) VALUES (?)");
+        $stmt->execute([$userId]);
+    } else {
+        $stmt = $conn->prepare("INSERT INTO companies (user_id, company_name) VALUES (?, ?)");
+        $stmt->execute([$userId, $data['name']]);
     }
 
     $_SESSION['user_id'] = $userID;
