@@ -51,7 +51,7 @@ $user = [
     
     <div class="company-actions">
         <div class="profile-actions">
-            <a href="../../flight-pages/search-flight.php">
+            <a href="../flight-pages/search-flight.php">
              <button class="form-action-btn">Search Flight</button>
              </a>
         </div>

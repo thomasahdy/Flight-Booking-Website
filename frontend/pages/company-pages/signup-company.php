@@ -10,7 +10,7 @@
 
 <body>
 <main>
-<form class="form-container" method="POST" enctype="multipart/form-data">
+<form class="form-container" enctype="multipart/form-data" onsubmit="submitCompanyForm(event)">
 
     <h1 class="form-header">Create account as a company</h1>
 
@@ -78,6 +78,7 @@
 
 </form>
 </main>
+<script src="../../js/signup-company.js"></script>
 </body>
 </html>
 

@@ -118,7 +118,7 @@ function handleLogin(e) {
             submitBtn.textContent = 'Signing in...';
             console.log('Sending login request for:', email);
 
-            fetch("../backend/auth/login.php", {
+            fetch("backend/auth/login.php", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -131,20 +131,31 @@ function handleLogin(e) {
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
-                    currentUsers = {...data.user};
+                    // Store user info in localStorage
+                    const user = {
+                        email: email,
+                        role: data.role,
+                        name: data.name || ''
+                    };
+                    localStorage.setItem('user', JSON.stringify(user));
                     alert(data.message);
-                    // window.location.href = home;
+                    
+                    // Redirect based on role
+                    const redirectUrl = data.role === 'company' 
+                        ? 'frontend/pages/company-pages/companyhome.php' 
+                        : 'frontend/pages/user-pages/userhome.php';
+                    window.location.href = redirectUrl;
                 } else {
-                    alert(data.message);
+                    alert(data.message || 'Login failed');
                     submitBtn.disabled = false;
-
+                    submitBtn.textContent = 'Login';
                 }
             })
             .catch(err => {
                 console.error(err);
                 alert("Server error. Please try again.");
                 submitBtn.disabled = false;
-
+                submitBtn.textContent = 'Login';
             });
 
                 }
