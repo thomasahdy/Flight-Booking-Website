@@ -1,111 +1,73 @@
 <?php
-/**
- * Update Company Profile Handler
- * Processes company profile completion form
- */
-
-
-error_reporting(E_ALL);
-ini_set('display_errors', 0);
-ini_set('log_errors', 1);
-
 require_once __DIR__ . '/../config/database.php';
-
-
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
 header('Content-Type: application/json');
 
-
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit;
-}
-
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405);
     echo json_encode(['success' => false, 'message' => 'Method not allowed']);
     exit;
 }
 
-$contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
-
-if (strpos($contentType, 'application/json') !== false) {
-    $data = json_decode(file_get_contents('php://input'), true);
-} else {
-    $data = $_POST;
-}
-
-
-$userId = null;
-
-if (isset($_SESSION['user_id'])) {
-    $userId = $_SESSION['user_id'];
-} elseif (isset($data['user_id'])) {
-
-    $userId = $data['user_id'];
-} else {
-    http_response_code(401);
-    echo json_encode(['success' => false, 'message' => 'Not authenticated. Please login first.']);
+if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'company') {
+    echo json_encode(['success' => false, 'message' => 'Unauthorized']);
     exit;
 }
 
-
-if (empty($data['companyName']) || empty($data['address']) || empty($data['license'])) {
-    http_response_code(400);
-    echo json_encode(['success' => false, 'message' => 'Company name, address, and license number are required']);
-    exit;
-}
+$data = json_decode(file_get_contents('php://input'), true) ?: $_POST;
 
 try {
     $conn = getDBConnection();
 
+    // Update user table
+    if (isset($data['name']) || isset($data['tel'])) {
+        $updates = [];
+        $params = [];
 
-    $stmt = $conn->prepare("SELECT user_type FROM users WHERE id = ?");
-    $stmt->execute([$userId]);
-    $user = $stmt->fetch();
+        if (isset($data['name'])) {
+            $updates[] = "name = ?";
+            $params[] = $data['name'];
+        }
+        if (isset($data['tel'])) {
+            $updates[] = "tel = ?";
+            $params[] = $data['tel'];
+        }
 
-    if (!$user || $user['user_type'] !== 'company') {
-        http_response_code(403);
-        echo json_encode(['success' => false, 'message' => 'Access denied. Only companies can update company profiles.']);
-        exit;
+        $params[] = $_SESSION['user_id'];
+
+        $sql = "UPDATE users SET " . implode(', ', $updates) . " WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute($params);
     }
 
-  
-    $stmt = $conn->prepare("
-        UPDATE companies 
-        SET company_name = ?,
-            logo_url = ?,
-            bio = ?,
-            address = ?,
-            license_number = ?,
-            tax_id = ?
-        WHERE user_id = ?
-    ");
+    // Update company table
+    if (isset($data['bio']) || isset($data['address']) || isset($data['location'])) {
+        $updates = [];
+        $params = [];
 
-    $stmt->execute([
-        trim($data['companyName']),
-        $data['logo'] ?? null,
-        $data['bio'] ?? null,
-        trim($data['address']),
-        trim($data['license']),
-        $data['taxId'] ?? null,
-        $userId
-    ]);
+        if (isset($data['bio'])) {
+            $updates[] = "bio = ?";
+            $params[] = $data['bio'];
+        }
+        if (isset($data['address'])) {
+            $updates[] = "address = ?";
+            $params[] = $data['address'];
+        }
+        if (isset($data['location'])) {
+            $updates[] = "location = ?";
+            $params[] = $data['location'];
+        }
+
+        $params[] = $_SESSION['user_id'];
+
+        $sql = "UPDATE companies SET " . implode(', ', $updates) . " WHERE user_id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute($params);
+    }
 
     echo json_encode([
         'success' => true,
-        'message' => 'Company profile updated successfully',
-        'redirect' => 'company-home.html'
+        'message' => 'Profile updated successfully'
     ]);
 
 } catch (PDOException $e) {
-    http_response_code(500);
-    error_log("Company profile update error: " . $e->getMessage());
-    echo json_encode([
-        'success' => false,
-        'message' => 'Failed to update company profile. Please try again.',
-        'error' => $e->getMessage()
-    ]);
+    echo json_encode(['success' => false, 'message' => 'Update failed']);
 }

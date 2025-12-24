@@ -77,23 +77,37 @@
         </div>
     </div>
 
+    <script src="js/api.js"></script>
     <script>
-        function handleSubmit(e) {
+        // Check auth on page load
+        checkAuth('company');
+
+        async function handleSubmit(e) {
             e.preventDefault();
+
+            const departure = document.getElementById('departureDate').value;
+            const arrival = document.getElementById('arrivalDate').value;
+
             const flightData = {
-                name: document.getElementById('name').value,
-                id: document.getElementById('id').value,
+                flight_name: document.getElementById('name').value,
+                flight_id: document.getElementById('id').value,
                 itinerary: document.getElementById('itinerary').value,
                 fees: document.getElementById('fees').value,
-                passengers: document.getElementById('passengers').value,
-                departureDate: document.getElementById('departureDate').value,
-                arrivalDate: document.getElementById('arrivalDate').value,
-                from: document.getElementById('from').value,
-                to: document.getElementById('to').value
+                max_passengers: document.getElementById('passengers').value,
+                start_date: departure.split('T')[0],
+                start_time: departure.split('T')[1],
+                end_date: arrival.split('T')[0],
+                end_time: arrival.split('T')[1]
             };
 
-            alert('Flight added successfully!');
-            window.location.href = 'company-home.html';
+            const result = await apiCall('flights/create-flight.php', 'POST', flightData);
+
+            if (result.success) {
+                alert('Flight added successfully!');
+                window.location.href = 'company-home.html';
+            } else {
+                alert('Error: ' + result.message);
+            }
         }
     </script>
 </body>

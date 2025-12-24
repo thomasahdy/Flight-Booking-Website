@@ -4,113 +4,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Complete Company Registration - Tripma</title>
+    <title>Complete Company Profile - Tripma</title>
     <link rel="stylesheet" href="./css/styles.css">
 </head>
 
 <body>
-    <!-- Header -->
-    <header class="header">
-        <nav class="navbar">
-            <a href="../index.php" class="logo">Tripma</a>
-            <ul class="nav-links">
-                <li><a href="login.html">Sign in</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <!-- Company Registration Form -->
     <div class="form-container">
-        <h1 style="text-align: center; color: var(--primary-purple); margin-bottom: 2rem;">Complete Your Company Profile
-        </h1>
-        <form id="companyForm" onsubmit="handleSubmit(event)">
+        <h1 style="text-align: center; color: var(--primary-purple); margin-bottom: 2rem;">Complete Company Profile</h1>
+        <form id="profileForm" onsubmit="handleSubmit(event)">
             <div class="form-group">
-                <label for="companyName">Company Name</label>
-                <input type="text" id="companyName" name="companyName" required placeholder="Enter company name">
-            </div>
-            <div class="form-group">
-                <label for="logo">Company Logo URL</label>
-                <input type="url" id="logo" name="logo" placeholder="Enter logo URL">
+                <label for="logo">Company Logo</label>
+                <input type="file" id="logo" accept="image/*">
             </div>
             <div class="form-group">
                 <label for="bio">Company Bio</label>
-                <textarea id="bio" name="bio" placeholder="Tell us about your company"></textarea>
+                <textarea id="bio" placeholder="Tell us about your company"></textarea>
             </div>
             <div class="form-group">
                 <label for="address">Address</label>
-                <input type="text" id="address" name="address" required placeholder="Enter company address">
+                <textarea id="address" placeholder="Company address"></textarea>
             </div>
             <div class="form-group">
-                <label for="license">Business License Number</label>
-                <input type="text" id="license" name="license" required placeholder="Enter license number">
+                <label for="location">Location</label>
+                <input type="text" id="location" placeholder="City, Country">
             </div>
-            <div class="form-group">
-                <label for="taxId">Tax ID</label>
-                <input type="text" id="taxId" name="taxId" placeholder="Enter tax ID">
-            </div>
-            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Complete
-                Registration</button>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Complete Registration</button>
         </form>
     </div>
 
+    <script src="js/api.js"></script>
     <script>
+        const user = checkAuth('company');
+
         async function handleSubmit(e) {
             e.preventDefault();
 
-            // Get user data from localStorage
-            const user = localStorage.getItem('user');
-            if (!user) {
-                alert('You must complete the initial registration first.\n\nPlease go to the registration page and create your account.');
-                window.location.href = 'register.html';
-                return;
-            }
+            const logoFile = document.getElementById('logo').files[0];
+            const bio = document.getElementById('bio').value;
+            const address = document.getElementById('address').value;
+            const location = document.getElementById('location').value;
 
-            const userData = JSON.parse(user);
-
-            const formData = {
-                user_id: userData.id, // Include user_id for authentication
-                companyName: document.getElementById('companyName').value.trim(),
-                logo: document.getElementById('logo').value.trim(),
-                bio: document.getElementById('bio').value.trim(),
-                address: document.getElementById('address').value.trim(),
-                license: document.getElementById('license').value.trim(),
-                taxId: document.getElementById('taxId').value.trim()
-            };
-
-            const submitBtn = e.target.querySelector('button[type="submit"]');
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Saving...';
-
-            try {
-                console.log('Sending company profile update:', formData);
-
-                const response = await fetch('../backend/profile/update-company.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(formData)
-                });
-
-                console.log('Response status:', response.status);
-
-                const data = await response.json();
-                console.log('Response data:', data);
-
-                if (data.success) {
-                    alert('Company profile completed successfully!');
-                    window.location.href = data.redirect;
-                } else {
-                    alert(data.message || 'Failed to update profile');
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Complete Registration';
+            // Upload logo if provided
+            if (logoFile) {
+                const result = await uploadFile(logoFile, 'logo');
+                if (!result.success) {
+                    alert('Logo upload failed: ' + result.message);
+                    return;
                 }
-            } catch (error) {
-                console.error('Profile update error:', error);
-                alert('An error occurred. Please try again.');
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Complete Registration';
             }
+
+            // Update profile
+            if (bio || address || location) {
+                const result = await apiCall('profile/update-company.php', 'POST', {
+                    bio, address, location
+                });
+                if (!result.success) {
+                    alert('Profile update failed: ' + result.message);
+                    return;
+                }
+            }
+
+            alert('Profile completed successfully!');
+            window.location.href = 'company-home.html';
         }
     </script>
 </body>

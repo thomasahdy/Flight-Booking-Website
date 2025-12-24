@@ -9,7 +9,6 @@
 </head>
 
 <body>
-    <!-- Header -->
     <header class="header">
         <nav class="navbar">
             <a href="company-home.html" class="logo">Tripma</a>
@@ -18,114 +17,121 @@
                 <li><a href="add-flight.html">Add Flight</a></li>
                 <li><a href="company-profile.html">Profile</a></li>
                 <li><a href="messages.html">Messages</a></li>
-                <li><a href="logout.html">Logout</a></li>
+                <li><a href="#" onclick="logout()">Logout</a></li>
             </ul>
         </nav>
     </header>
 
-    <!-- Company Profile -->
     <div class="container">
-        <div class="profile-header">
-            <img src="https://via.placeholder.com/120" alt="Company Logo" class="profile-image" id="logoPreview">
-            <div class="profile-info" style="flex: 1;">
-                <h2 id="companyNameDisplay">Hawaiian Airlines</h2>
-                <p id="bioDisplay" style="color: var(--gray-medium); margin-top: 0.5rem;">Premium airline service
-                    connecting the Pacific</p>
-                <p style="color: var(--gray-medium); margin-top: 0.5rem;"><strong>Address:</strong> <span
-                        id="addressDisplay">1234 Airport Blvd, Honolulu, HI 96819</span></p>
-            </div>
-            <div>
-                <button onclick="toggleEdit()" class="btn btn-primary">Edit</button>
-            </div>
-        </div>
+        <div class="form-container">
+            <h1 style="text-align: center; color: var(--primary-purple); margin-bottom: 2rem;">Company Profile</h1>
 
-        <!-- Edit Form (Hidden by default) -->
-        <div id="editForm" style="display: none;" class="form-container">
-            <h2 style="color: var(--primary-purple); margin-bottom: 1.5rem;">Edit Company Profile</h2>
-            <form onsubmit="handleSave(event)">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <img id="logoPreview" src="https://via.placeholder.com/150" alt="Logo"
+                    style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;">
+            </div>
+
+            <form id="profileForm" onsubmit="handleSubmit(event)">
                 <div class="form-group">
-                    <label for="logo">Company Logo URL</label>
-                    <input type="url" id="logo" name="logo" placeholder="Enter logo URL"
-                        onchange="updateLogoPreview(this.value)">
+                    <label for="logo">Company Logo</label>
+                    <input type="file" id="logo" accept="image/*" onchange="previewLogo(event)">
                 </div>
                 <div class="form-group">
                     <label for="name">Company Name</label>
-                    <input type="text" id="name" name="name" required value="Hawaiian Airlines">
+                    <input type="text" id="name" placeholder="Company name">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="tel">Phone</label>
+                    <input type="tel" id="tel" placeholder="Phone number">
                 </div>
                 <div class="form-group">
                     <label for="bio">Bio</label>
-                    <textarea id="bio" name="bio"
-                        placeholder="Tell us about your company">Premium airline service connecting the Pacific</textarea>
+                    <textarea id="bio" placeholder="Company bio"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="address">Address</label>
-                    <input type="text" id="address" name="address" required
-                        value="1234 Airport Blvd, Honolulu, HI 96819">
+                    <textarea id="address" placeholder="Company address"></textarea>
                 </div>
-                <div style="display: flex; gap: 1rem;">
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
-                    <button type="button" onclick="toggleEdit()" class="btn btn-secondary">Cancel</button>
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" placeholder="City, Country">
                 </div>
+                <div class="form-group">
+                    <label>Account Balance</label>
+                    <p id="balance" style="font-size: 1.5rem; color: var(--primary-purple); font-weight: bold;">$0.00
+                    </p>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Update Profile</button>
             </form>
         </div>
-
-        <!-- Flights List -->
-        <section class="section">
-            <div class="section-header">
-                <h2>Company Flights</h2>
-            </div>
-            <div class="flight-list">
-                <div class="flight-item" onclick="window.location.href='flight-details.html?id=1'">
-                    <div class="flight-info">
-                        <h3>FIG4312 - San Francisco to Tokyo</h3>
-                        <p><strong>ID:</strong> FL-001 | <strong>Status:</strong> Active</p>
-                    </div>
-                </div>
-                <div class="flight-item" onclick="window.location.href='flight-details.html?id=2'">
-                    <div class="flight-info">
-                        <h3>FIG4313 - Los Angeles to Sydney</h3>
-                        <p><strong>ID:</strong> FL-002 | <strong>Status:</strong> Active</p>
-                    </div>
-                </div>
-                <div class="flight-item" onclick="window.location.href='flight-details.html?id=3'">
-                    <div class="flight-info">
-                        <h3>FIG4314 - New York to London</h3>
-                        <p><strong>ID:</strong> FL-003 | <strong>Status:</strong> Full</p>
-                    </div>
-                </div>
-            </div>
-        </section>
     </div>
 
+    <script src="js/api.js"></script>
     <script>
-        function toggleEdit() {
-            const form = document.getElementById('editForm');
-            form.style.display = form.style.display === 'none' ? 'block' : 'none';
-        }
+        const user = checkAuth('company');
 
-        function updateLogoPreview(url) {
-            if (url) {
-                document.getElementById('logoPreview').src = url;
+        async function loadProfile() {
+            const result = await apiCall('profile/get-profile.php');
+            if (result.success) {
+                document.getElementById('name').value = result.user.name;
+                document.getElementById('email').value = result.user.email;
+                document.getElementById('tel').value = result.user.tel || '';
+                document.getElementById('bio').value = result.user.profile.bio || '';
+                document.getElementById('address').value = result.user.profile.address || '';
+                document.getElementById('location').value = result.user.profile.location || '';
+                document.getElementById('balance').textContent = formatCurrency(result.user.balance);
+
+                if (result.user.profile.logo_img) {
+                    document.getElementById('logoPreview').src = '../' + result.user.profile.logo_img;
+                }
             }
         }
 
-        function handleSave(e) {
+        function previewLogo(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('logoPreview').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        async function handleSubmit(e) {
             e.preventDefault();
-            const name = document.getElementById('name').value;
-            const bio = document.getElementById('bio').value;
-            const address = document.getElementById('address').value;
-            const logo = document.getElementById('logo').value;
 
-            document.getElementById('companyNameDisplay').textContent = name;
-            document.getElementById('bioDisplay').textContent = bio;
-            document.getElementById('addressDisplay').textContent = address;
-            if (logo) {
-                document.getElementById('logoPreview').src = logo;
+            const logoFile = document.getElementById('logo').files[0];
+            if (logoFile) {
+                const result = await uploadFile(logoFile, 'logo');
+                if (!result.success) {
+                    alert('Logo upload failed: ' + result.message);
+                    return;
+                }
             }
 
-            alert('Profile updated successfully!');
-            toggleEdit();
+            const result = await apiCall('profile/update-company.php', 'POST', {
+                name: document.getElementById('name').value,
+                tel: document.getElementById('tel').value,
+                bio: document.getElementById('bio').value,
+                address: document.getElementById('address').value,
+                location: document.getElementById('location').value
+            });
+
+            if (result.success) {
+                alert('Profile updated successfully!');
+                user.name = document.getElementById('name').value;
+                saveUser(user);
+            } else {
+                alert('Error: ' + result.message);
+            }
         }
+
+        loadProfile();
     </script>
 </body>
 

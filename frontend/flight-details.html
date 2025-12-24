@@ -9,7 +9,6 @@
 </head>
 
 <body>
-    <!-- Header -->
     <header class="header">
         <nav class="navbar">
             <a href="company-home.html" class="logo">Tripma</a>
@@ -18,167 +17,152 @@
                 <li><a href="add-flight.html">Add Flight</a></li>
                 <li><a href="company-profile.html">Profile</a></li>
                 <li><a href="messages.html">Messages</a></li>
-                <li><a href="logout.html">Logout</a></li>
+                <li><a href="#" onclick="logout()">Logout</a></li>
             </ul>
         </nav>
     </header>
 
-    <!-- Flight Details -->
     <div class="container">
-        <div style="margin-bottom: 2rem;">
-            <a href="company-home.html" style="color: var(--primary-purple); text-decoration: none;">← Back to
-                Flights</a>
+        <div class="card" id="flightDetails">
+            <p style="text-align: center;">Loading...</p>
         </div>
 
-        <div class="card" style="margin-bottom: 2rem;">
-            <h1 style="color: var(--primary-purple); margin-bottom: 1rem;">FIG4312 - San Francisco to Tokyo</h1>
-            <div
-                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
-                <div>
-                    <p style="color: var(--gray-medium); margin-bottom: 0.25rem;">Flight ID</p>
-                    <p style="font-size: 1.25rem; font-weight: 600;">FL-001</p>
-                </div>
-                <div>
-                    <p style="color: var(--gray-medium); margin-bottom: 0.25rem;">Flight Name</p>
-                    <p style="font-size: 1.25rem; font-weight: 600;">FIG4312</p>
-                </div>
-                <div>
-                    <p style="color: var(--gray-medium); margin-bottom: 0.25rem;">Fees</p>
-                    <p style="font-size: 1.25rem; font-weight: 600; color: var(--primary-purple);">$624</p>
-                </div>
-                <div>
-                    <p style="color: var(--gray-medium); margin-bottom: 0.25rem;">Passengers</p>
-                    <p style="font-size: 1.25rem; font-weight: 600;">45/50</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="card" style="margin-bottom: 2rem;">
-            <h2 style="color: var(--primary-purple); margin-bottom: 1rem;">Itinerary</h2>
-            <p style="line-height: 1.8; color: var(--gray-dark);">
-                <strong>Departure:</strong> San Francisco International Airport (SFO) - Feb 25, 7:00 AM<br>
-                <strong>Layover:</strong> Honolulu International Airport (HNL) - 2h 45m<br>
-                <strong>Arrival:</strong> Narita International Airport (NRT) - Mar 21, 4:15 PM<br>
-                <strong>Duration:</strong> 16h 45m (+1d)<br>
-                <strong>Stops:</strong> 1 stop
-            </p>
-        </div>
-
-        <!-- Pending Passengers -->
-        <div class="card" style="margin-bottom: 2rem;">
+        <section class="section">
             <div class="section-header">
-                <h2>Pending Passengers</h2>
-                <span class="badge badge-warning">5</span>
+                <h2>Registered Passengers (<span id="registeredCount">0</span>)</h2>
             </div>
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>John Doe</td>
-                            <td>john.doe@email.com</td>
-                            <td>+1-555-0123</td>
-                            <td><span class="badge badge-warning">Pending Payment</span></td>
-                            <td>
-                                <button class="btn btn-primary"
-                                    style="padding: 0.5rem 1rem; font-size: 0.875rem;">Approve</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Jane Smith</td>
-                            <td>jane.smith@email.com</td>
-                            <td>+1-555-0124</td>
-                            <td><span class="badge badge-warning">Pending Payment</span></td>
-                            <td>
-                                <button class="btn btn-primary"
-                                    style="padding: 0.5rem 1rem; font-size: 0.875rem;">Approve</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Bob Johnson</td>
-                            <td>bob.johnson@email.com</td>
-                            <td>+1-555-0125</td>
-                            <td><span class="badge badge-info">Awaiting Confirmation</span></td>
-                            <td>
-                                <button class="btn btn-primary"
-                                    style="padding: 0.5rem 1rem; font-size: 0.875rem;">Approve</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="table-container" id="registeredPassengers">
+                <p>Loading...</p>
             </div>
-        </div>
+        </section>
 
-        <!-- Registered Passengers -->
-        <div class="card" style="margin-bottom: 2rem;">
+        <section class="section">
             <div class="section-header">
-                <h2>Registered Passengers</h2>
-                <span class="badge badge-success">45</span>
+                <h2>Pending Passengers (<span id="pendingCount">0</span>)</h2>
             </div>
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Seat</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Sofia Knowles</td>
-                            <td>sofia.knowles@email.com</td>
-                            <td>+1-555-0101</td>
-                            <td>9F</td>
-                            <td><span class="badge badge-success">Confirmed</span></td>
-                        </tr>
-                        <tr>
-                            <td>Michael Chen</td>
-                            <td>michael.chen@email.com</td>
-                            <td>+1-555-0102</td>
-                            <td>12A</td>
-                            <td><span class="badge badge-success">Confirmed</span></td>
-                        </tr>
-                        <tr>
-                            <td>Emily Rodriguez</td>
-                            <td>emily.rodriguez@email.com</td>
-                            <td>+1-555-0103</td>
-                            <td>15B</td>
-                            <td><span class="badge badge-success">Confirmed</span></td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="table-container" id="pendingPassengers">
+                <p>Loading...</p>
             </div>
-        </div>
+        </section>
 
-        <!-- Cancel Flight -->
-        <div class="card" style="border: 2px solid var(--badge-danger);">
-            <h2 style="color: var(--badge-danger); margin-bottom: 1rem;">Danger Zone</h2>
-            <p style="color: var(--gray-medium); margin-bottom: 1rem;">
-                Canceling this flight will automatically refund all registered passengers. This action cannot be undone.
-            </p>
-            <button onclick="cancelFlight()" class="btn" style="background: #DC2626; color: white;">Cancel Flight &
-                Refund Passengers</button>
+        <div style="margin-top: 2rem;">
+            <button onclick="cancelFlight()" class="btn btn-secondary">Cancel Flight & Refund All</button>
+            <a href="company-home.html" class="btn btn-primary">Back to Home</a>
         </div>
     </div>
 
+    <script src="js/api.js"></script>
     <script>
-        function cancelFlight() {
-            if (confirm('Are you sure you want to cancel this flight? All passengers will be refunded automatically.')) {
-                alert('Flight canceled. All passengers have been refunded.');
+        checkAuth('company');
+        const flightId = new URLSearchParams(window.location.search).get('id');
+        let flight = null;
+
+        async function loadFlight() {
+            const result = await apiCall('flights/get-flight-details.php?id=' + flightId);
+            if (result.success) {
+                flight = result.flight;
+                displayFlight();
+                displayPassengers();
+            } else {
+                alert('Flight not found');
                 window.location.href = 'company-home.html';
             }
         }
+
+        function displayFlight() {
+            document.getElementById('flightDetails').innerHTML = `
+                <h2>${flight.flight_name}</h2>
+                <p><strong>Flight ID:</strong> ${flight.flight_id}</p>
+                <p><strong>Itinerary:</strong> ${flight.itinerary}</p>
+                <p><strong>Departure:</strong> ${formatDate(flight.start_date)} at ${formatTime(flight.start_time)}</p>
+                <p><strong>Arrival:</strong> ${formatDate(flight.end_date)} at ${formatTime(flight.end_time)}</p>
+                <p><strong>Fees:</strong> ${formatCurrency(flight.fees)}</p>
+                <p><strong>Capacity:</strong> ${flight.max_passengers} passengers</p>
+                <p><strong>Registered:</strong> ${flight.registered_passengers}</p>
+                <p><strong>Pending:</strong> ${flight.pending_passengers}</p>
+                <p><strong>Available:</strong> ${flight.available_seats}</p>
+                <p><strong>Status:</strong> <span class="badge badge-${flight.status === 'active' ? 'success' : 'warning'}">${flight.status}</span></p>
+            `;
+        }
+
+        function displayPassengers() {
+            document.getElementById('registeredCount').textContent = flight.registered_passengers.length;
+            document.getElementById('pendingCount').textContent = flight.pending_passengers_list.length;
+
+            if (flight.registered_passengers.length > 0) {
+                document.getElementById('registeredPassengers').innerHTML = `
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Payment</th>
+                                <th>Booked</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${flight.registered_passengers.map(p => `
+                                <tr>
+                                    <td>${p.name}</td>
+                                    <td>${p.email}</td>
+                                    <td>${p.tel}</td>
+                                    <td>${p.payment_type}</td>
+                                    <td>${formatDate(p.booking_date)}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            } else {
+                document.getElementById('registeredPassengers').innerHTML = '<p>No registered passengers yet</p>';
+            }
+
+            if (flight.pending_passengers_list.length > 0) {
+                document.getElementById('pendingPassengers').innerHTML = `
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Payment</th>
+                                <th>Booked</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${flight.pending_passengers_list.map(p => `
+                                <tr>
+                                    <td>${p.name}</td>
+                                    <td>${p.email}</td>
+                                    <td>${p.tel}</td>
+                                    <td>${p.payment_type}</td>
+                                    <td>${formatDate(p.booking_date)}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            } else {
+                document.getElementById('pendingPassengers').innerHTML = '<p>No pending passengers</p>';
+            }
+        }
+
+        async function cancelFlight() {
+            if (!confirm('Are you sure you want to cancel this flight? All passengers will be refunded.')) {
+                return;
+            }
+
+            const result = await apiCall('flights/cancel-flight.php', 'POST', { flight_id: flightId });
+            if (result.success) {
+                alert(`Flight cancelled! ${result.passengers_refunded} passengers refunded ${formatCurrency(result.refunded_amount)}`);
+                window.location.href = 'company-home.html';
+            } else {
+                alert('Error: ' + result.message);
+            }
+        }
+
+        loadFlight();
     </script>
 </body>
 

@@ -9,7 +9,6 @@
 </head>
 
 <body>
-    <!-- Header -->
     <header class="header">
         <nav class="navbar">
             <a href="passenger-home.html" class="logo">Tripma</a>
@@ -18,153 +17,95 @@
                 <li><a href="search-flight.html">Search Flights</a></li>
                 <li><a href="passenger-profile.html">Profile</a></li>
                 <li><a href="messages.html">Messages</a></li>
-                <li><a href="logout.html">Logout</a></li>
+                <li><a href="#" onclick="logout()">Logout</a></li>
             </ul>
         </nav>
     </header>
 
-    <!-- Passenger Dashboard -->
     <div class="container">
-        <!-- Passenger Header -->
         <div class="profile-header">
-            <img src="https://via.placeholder.com/120" alt="Profile" class="profile-image" id="userImage">
-            <div class="profile-info" style="flex: 1;">
+            <img src="https://via.placeholder.com/120" alt="Profile" class="profile-image" id="profilePhoto">
+            <div class="profile-info">
                 <h2 id="userName">Loading...</h2>
-                <p style="color: var(--gray-medium); margin-top: 0.5rem;"><strong>Email:</strong>
-                    <span id="userEmail">Loading...</span>
-                </p>
-                <p style="color: var(--gray-medium); margin-top: 0.5rem;"><strong>Phone:</strong> <span
-                        id="userPhone">Loading...</span></p>
+                <p style="color: var(--gray-medium);" id="userEmail"></p>
+                <p style="color: var(--gray-medium);">Balance: <strong style="color: var(--primary-purple);"
+                        id="balance">$0.00</strong></p>
             </div>
-            <div>
-                <a href="passenger-profile.html" class="btn btn-primary">Edit Profile</a>
+            <div style="margin-left: auto;">
+                <a href="search-flight.html" class="btn btn-primary">Search Flights</a>
             </div>
         </div>
 
-        <!-- Current Flights -->
         <section class="section">
             <div class="section-header">
                 <h2>Current Flights</h2>
             </div>
-            <div class="flight-list">
-                <div class="flight-item" onclick="window.location.href='flight-info.html?id=1'">
-                    <div class="flight-info">
-                        <h3>FIG4312 - San Francisco to Tokyo</h3>
-                        <p><strong>Departure:</strong> Feb 25, 7:00 AM</p>
-                        <p><strong>Arrival:</strong> Mar 21, 4:15 PM</p>
-                        <p><strong>Seat:</strong> 9F</p>
-                    </div>
-                    <div>
-                        <span class="badge badge-success">Confirmed</span>
-                        <p
-                            style="font-size: 1.5rem; font-weight: bold; color: var(--primary-purple); margin-top: 0.5rem;">
-                            $624</p>
-                    </div>
-                </div>
-                <div class="flight-item" onclick="window.location.href='flight-info.html?id=2'">
-                    <div class="flight-info">
-                        <h3>FIG4313 - Los Angeles to Sydney</h3>
-                        <p><strong>Departure:</strong> Mar 5, 10:30 AM</p>
-                        <p><strong>Arrival:</strong> Mar 6, 8:15 AM</p>
-                        <p><strong>Seat:</strong> 12A</p>
-                    </div>
-                    <div>
-                        <span class="badge badge-warning">Pending</span>
-                        <p
-                            style="font-size: 1.5rem; font-weight: bold; color: var(--primary-purple); margin-top: 0.5rem;">
-                            $981</p>
-                    </div>
-                </div>
+            <div class="flight-list" id="currentFlights">
+                <p style="text-align: center; color: var(--gray-medium);">Loading...</p>
             </div>
         </section>
 
-        <!-- Completed Flights -->
         <section class="section">
             <div class="section-header">
                 <h2>Completed Flights</h2>
             </div>
-            <div class="flight-list">
-                <div class="flight-item">
-                    <div class="flight-info">
-                        <h3>FIG4201 - New York to London</h3>
-                        <p><strong>Date:</strong> Jan 15, 2024</p>
-                        <p><strong>Duration:</strong> 7h 30m</p>
-                    </div>
-                    <div>
-                        <span class="badge badge-info">Completed</span>
-                    </div>
-                </div>
-                <div class="flight-item">
-                    <div class="flight-info">
-                        <h3>FIG4202 - Paris to Tokyo</h3>
-                        <p><strong>Date:</strong> Dec 20, 2023</p>
-                        <p><strong>Duration:</strong> 12h 15m</p>
-                    </div>
-                    <div>
-                        <span class="badge badge-info">Completed</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Quick Search -->
-        <section class="section">
-            <div class="card" style="text-align: center; padding: 3rem;">
-                <h2 style="color: var(--primary-purple); margin-bottom: 1rem;">Looking for your next adventure?</h2>
-                <p style="color: var(--gray-medium); margin-bottom: 2rem;">Search for flights to destinations around the
-                    world</p>
-                <a href="search-flight.html" class="btn btn-primary">Search Flights</a>
+            <div class="flight-list" id="completedFlights">
+                <p style="text-align: center; color: var(--gray-medium);">Loading...</p>
             </div>
         </section>
     </div>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-column">
-                <h3>Tripma</h3>
-            </div>
-            <div class="footer-column">
-                <h3>Support</h3>
-                <a href="#">Help Center</a>
-                <a href="#">Contact us</a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>© 2020 Tripma incorporated.</p>
-        </div>
-    </footer>
-
+    <script src="js/api.js"></script>
     <script>
-        // Check if user is logged in
-        document.addEventListener('DOMContentLoaded', function () {
-            const user = localStorage.getItem('user');
+        const user = checkAuth('passenger');
 
-            if (!user) {
-                // Not logged in, redirect to login
-                window.location.href = 'login.html';
+        async function loadData() {
+            document.getElementById('userName').textContent = user.name;
+            document.getElementById('userEmail').textContent = user.email;
+
+            // Get profile
+            const profile = await apiCall('profile/get-profile.php');
+            if (profile.success) {
+                document.getElementById('balance').textContent = formatCurrency(profile.user.balance);
+                if (profile.user.profile.photo) {
+                    document.getElementById('profilePhoto').src = '../' + profile.user.profile.photo;
+                }
+            }
+
+            // Get bookings
+            const result = await apiCall('bookings/get-bookings.php');
+            if (result.success) {
+                displayFlights(result.current, 'currentFlights');
+                displayFlights(result.completed, 'completedFlights');
+            }
+        }
+
+        function displayFlights(bookings, containerId) {
+            const container = document.getElementById(containerId);
+
+            if (bookings.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: var(--gray-medium);">No flights</p>';
                 return;
             }
 
-            try {
-                const userData = JSON.parse(user);
+            container.innerHTML = bookings.map(booking => `
+                <div class="flight-item" onclick="window.location.href='flight-info.html?id=${booking.flight_id}'">
+                    <div class="flight-info">
+                        <h3>${booking.flight_name}</h3>
+                        <p><strong>Company:</strong> ${booking.company_name}</p>
+                        <p><strong>Departure:</strong> ${formatDate(booking.start_date)}, ${formatTime(booking.start_time)}</p>
+                        <p><strong>Arrival:</strong> ${formatDate(booking.end_date)}, ${formatTime(booking.end_time)}</p>
+                        <p><strong>Amount:</strong> ${formatCurrency(booking.amount)}</p>
+                        <p><strong>Payment:</strong> ${booking.payment_type}</p>
+                    </div>
+                    <div>
+                        <span class="badge ${booking.status === 'confirmed' ? 'badge-success' : 'badge-warning'}">${booking.status}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
 
-                // Check if user is a passenger
-                if (userData.type !== 'passenger') {
-                    window.location.href = 'company-home.html';
-                    return;
-                }
-
-                // Update page with user data
-                document.getElementById('userName').textContent = userData.name || 'User';
-                document.getElementById('userEmail').textContent = userData.email || 'N/A';
-                document.getElementById('userPhone').textContent = userData.profile?.phone || userData.phone || 'N/A';
-
-            } catch (e) {
-                console.error('Error loading user data:', e);
-                window.location.href = 'login.html';
-            }
-        });
+        loadData();
     </script>
 </body>
 

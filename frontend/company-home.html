@@ -9,7 +9,6 @@
 </head>
 
 <body>
-    <!-- Header -->
     <header class="header">
         <nav class="navbar">
             <a href="company-home.html" class="logo">Tripma</a>
@@ -18,136 +17,88 @@
                 <li><a href="add-flight.html">Add Flight</a></li>
                 <li><a href="company-profile.html">Profile</a></li>
                 <li><a href="messages.html">Messages</a></li>
-                <li><a href="logout.html">Logout</a></li>
+                <li><a href="#" onclick="logout()">Logout</a></li>
             </ul>
         </nav>
     </header>
 
-    <!-- Company Dashboard -->
     <div class="container">
-        <!-- Company Header -->
         <div class="profile-header">
             <img src="https://via.placeholder.com/120" alt="Company Logo" class="profile-image" id="companyLogo">
             <div class="profile-info">
                 <h2 id="companyName">Loading...</h2>
-                <p style="color: var(--gray-medium);" id="companyType">Airline Company</p>
+                <p style="color: var(--gray-medium);">Airline Company</p>
                 <p style="color: var(--gray-medium);">Total Flights: <strong style="color: var(--primary-purple);"
                         id="flightCount">0</strong></p>
+                <p style="color: var(--gray-medium);">Balance: <strong style="color: var(--primary-purple);"
+                        id="balance">$0.00</strong></p>
             </div>
             <div style="margin-left: auto;">
                 <a href="add-flight.html" class="btn btn-primary">+ Add Flight</a>
             </div>
         </div>
 
-        <!-- Flights List -->
         <section class="section">
             <div class="section-header">
                 <h2>Your Flights</h2>
             </div>
-            <div class="flight-list">
-                <div class="flight-item" onclick="window.location.href='flight-details.html?id=1'">
-                    <div class="flight-info">
-                        <h3>FIG4312 - San Francisco to Tokyo</h3>
-                        <p><strong>ID:</strong> FL-001</p>
-                        <p><strong>Departure:</strong> Feb 25, 7:00 AM</p>
-                        <p><strong>Arrival:</strong> Mar 21, 4:15 PM</p>
-                        <p><strong>Passengers:</strong> 45/50</p>
-                    </div>
-                    <div>
-                        <span class="badge badge-success">Active</span>
-                    </div>
-                </div>
-                <div class="flight-item" onclick="window.location.href='flight-details.html?id=2'">
-                    <div class="flight-info">
-                        <h3>FIG4313 - Los Angeles to Sydney</h3>
-                        <p><strong>ID:</strong> FL-002</p>
-                        <p><strong>Departure:</strong> Mar 5, 10:30 AM</p>
-                        <p><strong>Arrival:</strong> Mar 6, 8:15 AM</p>
-                        <p><strong>Passengers:</strong> 30/50</p>
-                    </div>
-                    <div>
-                        <span class="badge badge-success">Active</span>
-                    </div>
-                </div>
-                <div class="flight-item" onclick="window.location.href='flight-details.html?id=3'">
-                    <div class="flight-info">
-                        <h3>FIG4314 - New York to London</h3>
-                        <p><strong>ID:</strong> FL-003</p>
-                        <p><strong>Departure:</strong> Mar 10, 6:00 PM</p>
-                        <p><strong>Arrival:</strong> Mar 11, 6:30 AM</p>
-                        <p><strong>Passengers:</strong> 50/50</p>
-                    </div>
-                    <div>
-                        <span class="badge badge-warning">Full</span>
-                    </div>
-                </div>
-                <div class="flight-item" onclick="window.location.href='flight-details.html?id=4'">
-                    <div class="flight-info">
-                        <h3>FIG4315 - San Francisco to Shanghai</h3>
-                        <p><strong>ID:</strong> FL-004</p>
-                        <p><strong>Departure:</strong> Mar 15, 8:20 AM</p>
-                        <p><strong>Arrival:</strong> Mar 16, 2:15 PM</p>
-                        <p><strong>Passengers:</strong> 15/50</p>
-                    </div>
-                    <div>
-                        <span class="badge badge-info">Open</span>
-                    </div>
-                </div>
+            <div class="flight-list" id="flightsList">
+                <p style="text-align: center; color: var(--gray-medium);">Loading flights...</p>
             </div>
         </section>
     </div>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-column">
-                <h3>Tripma</h3>
-            </div>
-            <div class="footer-column">
-                <h3>About</h3>
-                <a href="#">About Tripma</a>
-                <a href="#">How it works</a>
-                <a href="#">Careers</a>
-            </div>
-            <div class="footer-column">
-                <h3>Support</h3>
-                <a href="#">Help Center</a>
-                <a href="#">Contact us</a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>© 2020 Tripma incorporated.</p>
-        </div>
-    </footer>
-
+    <script src="js/api.js"></script>
     <script>
-        // Check if user is logged in
-        document.addEventListener('DOMContentLoaded', function () {
-            const user = localStorage.getItem('user');
+        const user = checkAuth('company');
 
-            if (!user) {
-                // Not logged in, redirect to login
-                window.location.href = 'login.html';
+        async function loadData() {
+            // Update company name
+            document.getElementById('companyName').textContent = user.name;
+
+            // Get profile
+            const profile = await apiCall('profile/get-profile.php');
+            if (profile.success) {
+                document.getElementById('balance').textContent = formatCurrency(profile.user.balance);
+                if (profile.user.profile.logo_img) {
+                    document.getElementById('companyLogo').src = '../' + profile.user.profile.logo_img;
+                }
+            }
+
+            // Get flights
+            const result = await apiCall('flights/get-flights.php?company_id=' + user.id);
+            if (result.success) {
+                displayFlights(result.flights);
+            }
+        }
+
+        function displayFlights(flights) {
+            const container = document.getElementById('flightsList');
+            document.getElementById('flightCount').textContent = flights.length;
+
+            if (flights.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: var(--gray-medium);">No flights yet. <a href="add-flight.html">Add your first flight</a></p>';
                 return;
             }
 
-            try {
-                const userData = JSON.parse(user);
+            container.innerHTML = flights.map(flight => `
+                <div class="flight-item" onclick="window.location.href='flight-details.html?id=${flight.id}'">
+                    <div class="flight-info">
+                        <h3>${flight.flight_name}</h3>
+                        <p><strong>ID:</strong> ${flight.flight_id}</p>
+                        <p><strong>Departure:</strong> ${formatDate(flight.start_date)}, ${formatTime(flight.start_time)}</p>
+                        <p><strong>Arrival:</strong> ${formatDate(flight.end_date)}, ${formatTime(flight.end_time)}</p>
+                        <p><strong>Passengers:</strong> ${flight.registered_passengers + flight.pending_passengers}/${flight.max_passengers}</p>
+                        <p><strong>Revenue:</strong> ${formatCurrency(flight.fees * flight.registered_passengers)}</p>
+                    </div>
+                    <div>
+                        <span class="badge ${flight.is_full ? 'badge-warning' : 'badge-success'}">${flight.is_full ? 'Full' : 'Available'}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
 
-                // Check if user is a company
-                if (userData.type !== 'company') {
-                    window.location.href = 'passenger-home.html';
-                    return;
-                }
-
-                // Update page with user data
-                document.getElementById('companyName').textContent = userData.name || 'Company';
-
-            } catch (e) {
-                console.error('Error loading user data:', e);
-                window.location.href = 'login.html';
-            }
-        });
+        loadData();
     </script>
 </body>
 

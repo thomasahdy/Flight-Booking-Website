@@ -9,7 +9,6 @@
 </head>
 
 <body>
-    <!-- Header -->
     <header class="header">
         <nav class="navbar">
             <a href="passenger-home.html" class="logo">Tripma</a>
@@ -18,78 +17,116 @@
                 <li><a href="search-flight.html">Search Flights</a></li>
                 <li><a href="passenger-profile.html">Profile</a></li>
                 <li><a href="messages.html">Messages</a></li>
-                <li><a href="logout.html">Logout</a></li>
+                <li><a href="#" onclick="logout()">Logout</a></li>
             </ul>
         </nav>
     </header>
 
-    <!-- Passenger Profile -->
     <div class="container">
         <div class="form-container">
-            <h1 style="text-align: center; color: var(--primary-purple); margin-bottom: 2rem;">Edit Your Profile</h1>
-            <form id="profileForm" onsubmit="handleSave(event)">
-                <div style="text-align: center; margin-bottom: 2rem;">
-                    <img src="https://via.placeholder.com/120" alt="Profile" class="profile-image"
-                        id="profileImagePreview">
-                    <div class="form-group" style="margin-top: 1rem;">
-                        <label for="profileImage">Profile Image URL</label>
-                        <input type="url" id="profileImage" name="profileImage" placeholder="Enter image URL"
-                            onchange="updateImagePreview(this.value)">
-                    </div>
+            <h1 style="text-align: center; color: var(--primary-purple); margin-bottom: 2rem;">My Profile</h1>
+
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <img id="photoPreview" src="https://via.placeholder.com/150" alt="Profile"
+                    style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;">
+            </div>
+
+            <form id="profileForm" onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label for="photo">Profile Photo</label>
+                    <input type="file" id="photo" accept="image/*" onchange="previewPhoto(event)">
+                </div>
+                <div class="form-group">
+                    <label for="passport">Passport Image/PDF</label>
+                    <input type="file" id="passport" accept="image/*,application/pdf">
                 </div>
                 <div class="form-group">
                     <label for="name">Full Name</label>
-                    <input type="text" id="name" name="name" required value="Sofia Knowles">
+                    <input type="text" id="name" placeholder="Your name">
                 </div>
                 <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" required value="sofia.knowles@email.com">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" disabled>
                 </div>
                 <div class="form-group">
-                    <label for="tel">Phone Number</label>
-                    <input type="tel" id="tel" name="tel" required value="+1-555-0101">
+                    <label for="tel">Phone</label>
+                    <input type="tel" id="tel" placeholder="Phone number">
                 </div>
                 <div class="form-group">
-                    <label for="dateOfBirth">Date of Birth</label>
-                    <input type="date" id="dateOfBirth" name="dateOfBirth" value="1990-05-15">
+                    <label>Account Balance</label>
+                    <p id="balance" style="font-size: 1.5rem; color: var(--primary-purple); font-weight: bold;">$0.00
+                    </p>
                 </div>
-                <div class="form-group">
-                    <label for="nationality">Nationality</label>
-                    <input type="text" id="nationality" name="nationality" value="American">
-                </div>
-                <div class="form-group">
-                    <label for="passport">Passport Number</label>
-                    <input type="text" id="passport" name="passport" placeholder="Enter passport number">
-                </div>
-                <div class="form-group">
-                    <label for="emergencyContact">Emergency Contact Name</label>
-                    <input type="text" id="emergencyContact" name="emergencyContact" value="John Knowles">
-                </div>
-                <div class="form-group">
-                    <label for="emergencyPhone">Emergency Contact Phone</label>
-                    <input type="tel" id="emergencyPhone" name="emergencyPhone" value="+1-555-0102">
-                </div>
-                <div style="display: flex; gap: 1rem;">
-                    <button type="submit" class="btn btn-primary" style="flex: 1;">Save Changes</button>
-                    <a href="passenger-home.html" class="btn btn-secondary"
-                        style="flex: 1; text-align: center;">Cancel</a>
-                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Update Profile</button>
             </form>
         </div>
     </div>
 
+    <script src="js/api.js"></script>
     <script>
-        function updateImagePreview(url) {
-            if (url) {
-                document.getElementById('profileImagePreview').src = url;
+        const user = checkAuth('passenger');
+
+        async function loadProfile() {
+            const result = await apiCall('profile/get-profile.php');
+            if (result.success) {
+                document.getElementById('name').value = result.user.name;
+                document.getElementById('email').value = result.user.email;
+                document.getElementById('tel').value = result.user.tel || '';
+                document.getElementById('balance').textContent = formatCurrency(result.user.balance);
+
+                if (result.user.profile.photo) {
+                    document.getElementById('photoPreview').src = '../' + result.user.profile.photo;
+                }
             }
         }
 
-        function handleSave(e) {
-            e.preventDefault();
-            alert('Profile updated successfully!');
-            window.location.href = 'passenger-home.html';
+        function previewPhoto(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('photoPreview').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
         }
+
+        async function handleSubmit(e) {
+            e.preventDefault();
+
+            const photoFile = document.getElementById('photo').files[0];
+            if (photoFile) {
+                const result = await uploadFile(photoFile, 'photo');
+                if (!result.success) {
+                    alert('Photo upload failed: ' + result.message);
+                    return;
+                }
+            }
+
+            const passportFile = document.getElementById('passport').files[0];
+            if (passportFile) {
+                const result = await uploadFile(passportFile, 'passport');
+                if (!result.success) {
+                    alert('Passport upload failed: ' + result.message);
+                    return;
+                }
+            }
+
+            const result = await apiCall('profile/update-passenger.php', 'POST', {
+                name: document.getElementById('name').value,
+                tel: document.getElementById('tel').value
+            });
+
+            if (result.success) {
+                alert('Profile updated successfully!');
+                user.name = document.getElementById('name').value;
+                saveUser(user);
+            } else {
+                alert('Error: ' + result.message);
+            }
+        }
+
+        loadProfile();
     </script>
 </body>
 

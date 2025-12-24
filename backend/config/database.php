@@ -1,16 +1,20 @@
 <?php
 /**
- * Database Configuration
- * This file contains the database connection settings for XAMPP MySQL
+ * Database Configuration - Simplified Version
  */
 
 // Database credentials
 define('DB_HOST', 'localhost');
-define('DB_NAME', 'tripma_db');
+define('DB_NAME', 'flight_booking_db');
 define('DB_USER', 'root');
 define('DB_PASS', '');
 
+// Simple session start
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
+// Get database connection
 function getDBConnection()
 {
     try {
@@ -20,13 +24,11 @@ function getDBConnection()
             DB_PASS,
             [
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                PDO::ATTR_EMULATE_PREPARES => false
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
             ]
         );
         return $conn;
     } catch (PDOException $e) {
-        // If database doesn't exist, try to create it
         if (strpos($e->getMessage(), "Unknown database") !== false) {
             return createDatabase();
         }
@@ -34,64 +36,104 @@ function getDBConnection()
     }
 }
 
-
+// Create database and all tables
 function createDatabase()
 {
     try {
-        $conn = new PDO(
-            "mysql:host=" . DB_HOST,
-            DB_USER,
-            DB_PASS
-        );
+        $conn = new PDO("mysql:host=" . DB_HOST, DB_USER, DB_PASS);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-
-        $conn->exec("CREATE DATABASE IF NOT EXISTS " . DB_NAME . " CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
-
-
+        // Create database
+        $conn->exec("CREATE DATABASE IF NOT EXISTS " . DB_NAME);
         $conn->exec("USE " . DB_NAME);
 
-
+        // Users table
         $conn->exec("
             CREATE TABLE IF NOT EXISTS users (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 email VARCHAR(255) NOT NULL UNIQUE,
                 password VARCHAR(255) NOT NULL,
-                full_name VARCHAR(255) NOT NULL,
-                phone VARCHAR(50),
-                user_type ENUM('passenger', 'company') NOT NULL DEFAULT 'passenger',
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+                name VARCHAR(255) NOT NULL,
+                tel VARCHAR(50),
+                user_type ENUM('passenger', 'company') NOT NULL,
+                account_balance DECIMAL(10,2) DEFAULT 5000.00,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         ");
 
-
+        // Passengers table
         $conn->exec("
             CREATE TABLE IF NOT EXISTS passengers (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 user_id INT NOT NULL UNIQUE,
-                profile_image VARCHAR(500),
-                date_of_birth DATE,
-                nationality VARCHAR(100),
-                passport_number VARCHAR(50),
-                emergency_contact_name VARCHAR(255),
-                emergency_contact_phone VARCHAR(50),
+                photo VARCHAR(500),
+                passport_img VARCHAR(500),
                 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
             )
         ");
 
-
+        // Companies table
         $conn->exec("
             CREATE TABLE IF NOT EXISTS companies (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 user_id INT NOT NULL UNIQUE,
-                company_name VARCHAR(255) NOT NULL,
-                logo_url VARCHAR(500),
                 bio TEXT,
                 address TEXT,
-                license_number VARCHAR(100),
-                tax_id VARCHAR(100),
+                location VARCHAR(255),
+                logo_img VARCHAR(500),
                 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+            )
+        ");
+
+        // Flights table
+        $conn->exec("
+            CREATE TABLE IF NOT EXISTS flights (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                company_id INT NOT NULL,
+                flight_name VARCHAR(255) NOT NULL,
+                flight_id VARCHAR(100) NOT NULL UNIQUE,
+                itinerary TEXT NOT NULL,
+                fees DECIMAL(10,2) NOT NULL,
+                max_passengers INT NOT NULL,
+                registered_passengers INT DEFAULT 0,
+                pending_passengers INT DEFAULT 0,
+                start_date DATE NOT NULL,
+                start_time TIME NOT NULL,
+                end_date DATE NOT NULL,
+                end_time TIME NOT NULL,
+                status ENUM('active', 'cancelled', 'completed') DEFAULT 'active',
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (company_id) REFERENCES users(id) ON DELETE CASCADE
+            )
+        ");
+
+        // Bookings table
+        $conn->exec("
+            CREATE TABLE IF NOT EXISTS bookings (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                passenger_id INT NOT NULL,
+                flight_id INT NOT NULL,
+                status ENUM('pending', 'confirmed', 'completed', 'cancelled') DEFAULT 'pending',
+                payment_type ENUM('account', 'cash') NOT NULL,
+                amount DECIMAL(10,2) NOT NULL,
+                booking_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (passenger_id) REFERENCES users(id) ON DELETE CASCADE,
+                FOREIGN KEY (flight_id) REFERENCES flights(id) ON DELETE CASCADE
+            )
+        ");
+
+        // Messages table
+        $conn->exec("
+            CREATE TABLE IF NOT EXISTS messages (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                sender_id INT NOT NULL,
+                receiver_id INT NOT NULL,
+                flight_id INT,
+                message TEXT NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE,
+                FOREIGN KEY (receiver_id) REFERENCES users(id) ON DELETE CASCADE,
+                FOREIGN KEY (flight_id) REFERENCES flights(id) ON DELETE SET NULL
             )
         ");
 
@@ -100,8 +142,4 @@ function createDatabase()
         die("Database creation failed: " . $e->getMessage());
     }
 }
-
-
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+?>

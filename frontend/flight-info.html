@@ -9,11 +9,10 @@
 </head>
 
 <body>
-    <!-- Header -->
     <header class="header">
         <nav class="navbar">
             <a href="../index.php" class="logo">Tripma</a>
-            <ul class="nav-links">
+            <ul class="nav-links" id="navLinks">
                 <li><a href="search-flight.html">Flights</a></li>
                 <li><a href="login.html">Sign in</a></li>
                 <li><a href="register.html" class="btn btn-primary">Sign up</a></li>
@@ -21,118 +20,169 @@
         </nav>
     </header>
 
-    <!-- Flight Information -->
     <div class="container">
-        <div style="margin-bottom: 2rem;">
-            <a href="search-flight.html" style="color: var(--primary-purple); text-decoration: none;">← Back to
-                Search</a>
+        <div class="card" id="flightInfo">
+            <p style="text-align: center;">Loading...</p>
         </div>
 
-        <!-- Flight Details Card -->
-        <div class="card" style="margin-bottom: 2rem;">
-            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
-                <div
-                    style="width: 60px; height: 60px; background: var(--primary-purple); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
-                    HA</div>
-                <div>
-                    <h1 style="color: var(--primary-purple); margin: 0;">Hawaiian Airlines</h1>
-                    <p style="color: var(--gray-medium); margin: 0.25rem 0 0 0;">FIG4312</p>
-                </div>
-            </div>
+        <div id="bookingSection" style="margin-top: 2rem; display: none;">
+            <div class="card">
+                <h3>Book This Flight</h3>
+                <p><strong>Price:</strong> <span id="price"></span></p>
+                <p><strong>Your Balance:</strong> <span id="balance"></span></p>
 
-            <div
-                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
-                <div>
-                    <p style="color: var(--gray-medium); margin-bottom: 0.25rem;">Flight ID</p>
-                    <p style="font-size: 1.25rem; font-weight: 600;">FL-001</p>
+                <div class="form-group">
+                    <label>Payment Method:</label>
+                    <select id="paymentType" class="form-control">
+                        <option value="account">Pay from Account Balance</option>
+                        <option value="cash">Cash (Pay at Company)</option>
+                    </select>
                 </div>
-                <div>
-                    <p style="color: var(--gray-medium); margin-bottom: 0.25rem;">Duration</p>
-                    <p style="font-size: 1.25rem; font-weight: 600;">16h 45m (+1d)</p>
-                </div>
-                <div>
-                    <p style="color: var(--gray-medium); margin-bottom: 0.25rem;">Departure</p>
-                    <p style="font-size: 1.25rem; font-weight: 600;">7:00 AM</p>
-                    <p style="color: var(--gray-medium); font-size: 0.875rem;">Feb 25, SFO</p>
-                </div>
-                <div>
-                    <p style="color: var(--gray-medium); margin-bottom: 0.25rem;">Arrival</p>
-                    <p style="font-size: 1.25rem; font-weight: 600;">4:15 PM</p>
-                    <p style="color: var(--gray-medium); font-size: 0.875rem;">Mar 21, NRT</p>
-                </div>
-                <div>
-                    <p style="color: var(--gray-medium); margin-bottom: 0.25rem;">Layover</p>
-                    <p style="font-size: 1.25rem; font-weight: 600;">2h 45m in HNL</p>
-                </div>
+
+                <button onclick="bookFlight()" class="btn btn-primary">Book Flight</button>
+                <button onclick="showMessageForm()" class="btn btn-secondary">Message Company</button>
             </div>
         </div>
 
-        <!-- Itinerary -->
-        <div class="card" style="margin-bottom: 2rem;">
-            <h2 style="color: var(--primary-purple); margin-bottom: 1rem;">Itinerary</h2>
-            <div style="line-height: 2;">
-                <p><strong>From:</strong> San Francisco International Airport (SFO), California, US</p>
-                <p><strong>To:</strong> Narita International Airport (NRT), Tokyo, Japan</p>
-                <p><strong>Departure Date:</strong> February 25, 2024</p>
-                <p><strong>Departure Time:</strong> 7:00 AM</p>
-                <p><strong>Arrival Date:</strong> March 21, 2024</p>
-                <p><strong>Arrival Time:</strong> 4:15 PM</p>
-                <p><strong>Total Duration:</strong> 16h 45m</p>
-                <p><strong>Stops:</strong> 1 stop</p>
-                <p><strong>Layover:</strong> Honolulu International Airport (HNL) - 2h 45m</p>
-            </div>
-        </div>
-
-        <!-- Price Summary -->
-        <div class="card" style="margin-bottom: 2rem;">
-            <h2 style="color: var(--primary-purple); margin-bottom: 1rem;">Price Summary</h2>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                <span style="color: var(--gray-medium);">Subtotal</span>
-                <span style="font-weight: 600;">$503</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                <span style="color: var(--gray-medium);">Taxes and Fees</span>
-                <span style="font-weight: 600;">$121</span>
-            </div>
-            <hr style="border: none; border-top: 2px solid var(--gray-light); margin: 1rem 0;">
-            <div style="display: flex; justify-content: space-between;">
-                <span style="font-size: 1.25rem; font-weight: bold; color: var(--primary-purple);">Total</span>
-                <span style="font-size: 1.25rem; font-weight: bold; color: var(--primary-purple);">$624</span>
-            </div>
-        </div>
-
-        <!-- Actions -->
-        <div class="card" style="margin-bottom: 2rem;">
-            <h2 style="color: var(--primary-purple); margin-bottom: 1rem;">Book This Flight</h2>
-            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                <a href="passenger-information.html" class="btn btn-primary"
-                    style="flex: 1; min-width: 200px; text-align: center;">Take it? Book Now</a>
-                <a href="messages.html?company=hawaiian" class="btn btn-secondary"
-                    style="flex: 1; min-width: 200px; text-align: center;">Message the Company</a>
+        <div id="messageSection" style="margin-top: 2rem; display: none;">
+            <div class="card">
+                <h3>Message Company</h3>
+                <textarea id="messageText" placeholder="Type your message..."
+                    style="width: 100%; min-height: 100px; padding: 0.5rem;"></textarea>
+                <button onclick="sendMessage()" class="btn btn-primary" style="margin-top: 1rem;">Send Message</button>
             </div>
         </div>
     </div>
 
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-column">
-                <h3>Tripma</h3>
-            </div>
-            <div class="footer-column">
-                <h3>Support</h3>
-                <a href="#">Help Center</a>
-                <a href="#">Contact us</a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>© 2020 Tripma incorporated.</p>
-        </div>
-    </footer>
-
+    <script src="js/api.js"></script>
     <script>
-        // Flight info page - booking flow now goes to seat selection
+        const flightId = new URLSearchParams(window.location.search).get('id');
+        let flight = null;
+        let user = getCurrentUser();
+
+        // Update navigation based on user
+        if (user) {
+            const navLinks = document.getElementById('navLinks');
+            if (user.type === 'passenger') {
+                navLinks.innerHTML = `
+                    <li><a href="passenger-home.html">Home</a></li>
+                    <li><a href="search-flight.html">Search Flights</a></li>
+                    <li><a href="passenger-profile.html">Profile</a></li>
+                    <li><a href="messages.html">Messages</a></li>
+                    <li><a href="#" onclick="logout()">Logout</a></li>
+                `;
+            } else if (user.type === 'company') {
+                navLinks.innerHTML = `
+                    <li><a href="company-home.html">Home</a></li>
+                    <li><a href="add-flight.html">Add Flight</a></li>
+                    <li><a href="company-profile.html">Profile</a></li>
+                    <li><a href="messages.html">Messages</a></li>
+                    <li><a href="#" onclick="logout()">Logout</a></li>
+                `;
+            }
+        }
+
+        async function loadFlight() {
+            const result = await apiCall('flights/get-flight-details.php?id=' + flightId);
+            if (result.success) {
+                flight = result.flight;
+                displayFlight();
+
+                if (user && user.type === 'passenger') {
+                    document.getElementById('bookingSection').style.display = 'block';
+                    loadBalance();
+                }
+            } else {
+                alert('Flight not found');
+                window.location.href = 'search-flight.html';
+            }
+        }
+
+        function displayFlight() {
+            document.getElementById('flightInfo').innerHTML = `
+                <h2>${flight.flight_name}</h2>
+                <p><strong>Flight ID:</strong> ${flight.flight_id}</p>
+                <p><strong>Company:</strong> ${flight.company_name}</p>
+                <p><strong>Email:</strong> ${flight.company_email}</p>
+                <p><strong>Phone:</strong> ${flight.company_tel}</p>
+                <p><strong>Itinerary:</strong> ${flight.itinerary}</p>
+                <p><strong>Departure:</strong> ${formatDate(flight.start_date)} at ${formatTime(flight.start_time)}</p>
+                <p><strong>Arrival:</strong> ${formatDate(flight.end_date)} at ${formatTime(flight.end_time)}</p>
+                <p><strong>Price:</strong> ${formatCurrency(flight.fees)}</p>
+                <p><strong>Available Seats:</strong> ${flight.available_seats}/${flight.max_passengers}</p>
+                <p><strong>Status:</strong> <span class="badge badge-${flight.status === 'active' ? 'success' : 'warning'}">${flight.status}</span></p>
+            `;
+            document.getElementById('price').textContent = formatCurrency(flight.fees);
+        }
+
+        async function loadBalance() {
+            const result = await apiCall('payments/get-balance.php');
+            if (result.success) {
+                document.getElementById('balance').textContent = formatCurrency(result.balance);
+            }
+        }
+
+        async function bookFlight() {
+            if (!user) {
+                alert('Please login to book a flight');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const paymentType = document.getElementById('paymentType').value;
+
+            if (paymentType === 'account') {
+                const balance = await apiCall('payments/get-balance.php');
+                if (balance.success && parseFloat(balance.balance) < parseFloat(flight.fees)) {
+                    alert('Insufficient balance. Please choose cash payment or add funds to your account.');
+                    return;
+                }
+            }
+
+            const result = await apiCall('bookings/book-flight.php', 'POST', {
+                flight_id: flightId,
+                payment_type: paymentType
+            });
+
+            if (result.success) {
+                alert('Flight booked successfully!');
+                window.location.href = 'passenger-home.html';
+            } else {
+                alert('Error: ' + result.message);
+            }
+        }
+
+        function showMessageForm() {
+            document.getElementById('messageSection').style.display = 'block';
+        }
+
+        async function sendMessage() {
+            if (!user) {
+                alert('Please login to send messages');
+                return;
+            }
+
+            const message = document.getElementById('messageText').value;
+            if (!message) {
+                alert('Please enter a message');
+                return;
+            }
+
+            const result = await apiCall('messages/send-message.php', 'POST', {
+                receiver_id: flight.company_user_id,
+                flight_id: flightId,
+                message: message
+            });
+
+            if (result.success) {
+                alert('Message sent!');
+                document.getElementById('messageText').value = '';
+            } else {
+                alert('Error: ' + result.message);
+            }
+        }
+
+        loadFlight();
     </script>
 </body>
 
